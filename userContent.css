@@ -1,0 +1,64 @@
+@-moz-document url("about:blank"), url("about:newtab"), url("about:home"), url("about:privatebrowsing") {
+    html, body {
+        /* Strip the background completely */
+        background-color: #1F1C51 !important; 
+    }	
+}
+
+@-moz-document url("about:newtab"), url("about:home") {
+  .personalize-button {
+    opacity: 0 !important;
+    transition: opacity 0.2s ease !important;
+  }
+
+  .personalizeButtonWrapper:hover .personalize-button {
+    opacity: 1 !important;
+  }
+  
+  .wallpaper-attribution {
+    display: none !important;
+  }
+}
+
+@-moz-document url("about:privatebrowsing") {
+	@media -moz-pref("browser.nova.enabled") {
+  .nova-subheader {
+    display: none !important;
+  }
+    .logo {
+    background-size: var(--size-image-xxlarge) !important;
+	height: var(--size-image-xxlarge) !important;
+    width: var(--size-image-xxlarge) !important;
+  }
+}
+
+    /* 1. Center the logo dead-center in the viewport */
+    body {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+    }
+
+    /* 2. Hide wordmark ("Firefox" text), search bar, info box, etc. */
+    .wordmark,
+    .nova-tagline,
+    .search-inner-wrapper,
+    content-search-handoff-ui,
+    .info-border,
+    #search-banner,
+    .promo,
+    .showNormal {
+        display: none !important;
+    }
+
+    /* 3. Reset margins/padding so the mask icon stays perfectly centered */
+    .container,
+    .logo-and-wordmark,
+    #about-private-browsing-logo,
+    .logo {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
