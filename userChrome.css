@@ -164,7 +164,7 @@
 /* 1. Increased bottom margin to 4px to lift the tabs away from the nav-bar */
 .tab-background {
     margin-bottom: 4px !important;
-    border-radius: 6px !important; 
+    border-radius: 8px !important; 
 }
 
 /* 3. Prevent layout padding/margin shifts on the tab bar when dragging */
@@ -267,7 +267,7 @@
     /* Shave padding off the top, add a bit extra to the bottom */
 	margin-top: -2px !important;
     padding-top: 0px !important;
-    padding-bottom: 1px !important;
+    padding-bottom: 1px !important; /*  Change to 1 for normal themes */
 }
 
 /* Proper spacing for the bookmark bar items */
@@ -281,12 +281,12 @@
       color: color-mix(in srgb, var(--tab-text-color-selected) 85%, var(--lwt-accent-color)) !important;
 }
 
-/* Remove border/outline from the active tab background */
+/* Remove border/outline from the active tab background 
 .tabbrowser-tab[selected] .tab-background {
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
-}
+} */
 
 /* Change URL bar height so the contents of it are even inside it */
 

@@ -10,6 +10,7 @@
 user_pref("content.notify.interval", 100000);
 
 /** GFX ***/
+user_pref("javascript.options.concurrent_multiprocess_gcs.cpu_divisor", 6);
 user_pref("javascript.options.baselinejit.threshold", 100);
 user_pref("gfx.canvas.accelerated", true);
 user_pref("gfx.content.skia-font-cache-size", 20);
@@ -42,7 +43,7 @@ user_pref("media.wmf.hevc.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.urlbar-button.enabled", false);
 user_pref("dom.ipc.processPriorityManager.backgroundUsesEcoQoS", false);
 user_pref("dom.ipc.processCount", 4);
-user_pref("dom.ipc.processCount.webIsolated", 3);
+user_pref("dom.ipc.processCount.webIsolated", 5);
 user_pref("dom.ipc.processPrelaunch.fission.number", 1);
 user_pref("dom.security.sanitizer.while-parsing", true);
 user_pref("dom.gamepad.enabled", false);
@@ -142,7 +143,7 @@ user_pref("browser.contentblocking.report.hide_vpn_banner", true);
 user_pref("browser.contentblocking.report.show_mobile_app", false);
 user_pref("dom.private-attribution.submission.enabled", false);
 user_pref("dom.text_fragments.enabled", true);
-user_pref("default-browser-agent", false);
+user_pref("default-browser-agent.enabled", false);
 user_pref("app.update.service.enabled", false);
 user_pref("app.update.BITS.enabled", false);
 user_pref("browser.ai.control.default", "blocked");
