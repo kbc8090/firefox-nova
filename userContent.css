@@ -1,7 +1,7 @@
 @-moz-document url("about:blank"), url("about:newtab"), url("about:home"), url("about:privatebrowsing") {
     html, body {
         /* Strip the background completely */
-        background-color: #1F1C51 !important; 
+        background-color: #282236 !important; 
     }	
 }
 

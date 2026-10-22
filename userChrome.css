@@ -10,7 +10,8 @@
 */
 
 :root {
-    --chrome-content-separator-color: color-mix(in srgb, var(--toolbar-background-color), white 11%) !important;
+    /* --chrome-content-separator-color: color-mix(in srgb, var(--toolbar-background-color), white 11%) !important; */
+	--chrome-content-separator-color: color-mix(in srgb, var(--panel-banner-item-active-bgcolor), transparent 76%) !important;
     --tab-min-height: 27px !important; /* Locks your preferred tab height */
 	--arrowpanel-menuitem-border-radius: 4px !important;
 	--menuitem-border-radius: 4px !important;
@@ -68,12 +69,12 @@
 	*/
 }
 
-/* Adjust favicon to the left by 3px to align correctly */
+/* Adjust favicon to the left by 3px to align correctly
 .tab-throbber, .tab-icon-pending, .tab-icon-image, .tab-sharing-icon-overlay, .tab-icon-overlay {
   #tabbrowser-tabs[orient="horizontal"] &:not([pinned]), :root:not([sidebar-expand-on-hover]) #tabbrowser-tabs[orient="vertical"][expanded] &:not([pinned]) {
     margin-inline-start: -1px !important;
   }
-}
+} */
 
 /* Disabled add search engine context menu item */
 .menuitem-iconic.context-menu-add-engine,
@@ -129,7 +130,7 @@
 
 .tabbrowser-tab {
     margin-top: -1px !important;
-	padding: 0 1.5px !important;
+	padding: 0 2px !important;
 }
 
 
@@ -164,7 +165,7 @@
 /* 1. Increased bottom margin to 4px to lift the tabs away from the nav-bar */
 .tab-background {
     margin-bottom: 4px !important;
-    border-radius: 8px !important; 
+    border-radius: 6px !important; 
 }
 
 /* 3. Prevent layout padding/margin shifts on the tab bar when dragging */
@@ -231,17 +232,6 @@
 	border-radius: var(--border-radius-small) !important;
 }
 
-@media not (forced-colors) {
-  .close-icon:hover {
-    background-color: var(--toolbarbutton-background-color-hover) !important;
-  }
-}
-
-@media not (forced-colors) {
-  .close-icon:active {
-    background-color: var(--toolbarbutton-background-color-active) !important;
-  }
-}
 
 
 
@@ -265,9 +255,9 @@
 /* 1. Adjust the outer bookmark bar container padding */
 #PersonalToolbar {
     /* Shave padding off the top, add a bit extra to the bottom */
-	margin-top: -2px !important;
+	margin-top: 0px !important;
     padding-top: 0px !important;
-    padding-bottom: 1px !important; /*  Change to 1 for normal themes */
+    padding-bottom: 4px !important; /*  Change to 1 for normal themes */
 }
 
 /* Proper spacing for the bookmark bar items */
@@ -287,6 +277,15 @@
     border: none !important;
     box-shadow: none !important;
 } */
+
+.tabbrowser-tab[selected] > .tab-stack > .tab-background {
+  --tab-border-color-accent: linear-gradient(
+    96deg,
+    color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
+    color-mix(in srgb, var(--tab-border-color-selected-trailing) 62%, transparent) 79.34%
+  ) !important;
+  --tab-background-color-selected: linear-gradient( 96deg, color-mix(in srgb, var(--tab-border-color-selected-leading) 24%, transparent) 20.68%, color-mix(in srgb, color-mix(in srgb, var(--tab-border-color-selected-trailing) 64%, gray) 18%, transparent) 79.34% ) !important;
+}
 
 /* Change URL bar height so the contents of it are even inside it */
 
@@ -469,6 +468,19 @@ menupopup, panel {
 
 /* Change border color of the breakout urlbar to be a proper color */
 @media not -moz-pref("browser.nova.enabled") {
+	@media not (forced-colors) {
+  .close-icon:hover {
+    background-color: var(--toolbarbutton-background-color-hover) !important;
+  }
+}
+
+@media not (forced-colors) {
+  .close-icon:active {
+    background-color: var(--toolbarbutton-background-color-active) !important;
+  }
+}
+
+	
   [open] > .urlbar-background {
     border-color: var(--chrome-content-separator-color) !important;
   }
@@ -541,7 +553,8 @@ menupopup, panel {
     
     /* Mapped to native theme variables */
     color: var(--lwt-text-color, var(--arrowpanel-color)) !important;
-    background: var(--toolbar-background-color, var(--lwt-accent-color, -moz-dialog)) !important;
+    /* background: var(--toolbar-background-color, var(--lwt-accent-color, -moz-dialog)) !important; */
+	background: Menu !important;
     border: 1px solid var(--chrome-content-separator-color, var(--panel-border-color)) !important;
     box-shadow: var(--soft-menu-shadow) !important;
  }
@@ -911,7 +924,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 /* 2. Pop-in transition when page finishes loading ([busy] attribute is removed) */
 .tabbrowser-tab:not([busy]) .tab-icon-image {
   opacity: 1 !important;
-  transform: scale(1) !important;
+  transform: scale(1.0) !important;
   transition: transform 0.45s cubic-bezier(0.34, 1.50, 0.64, 1), opacity 0.45s ease !important;
 }
 
@@ -1011,7 +1024,20 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 }
 /* Updated for Firefox 157 Popover API & Nova Refactor */
 @media -moz-pref("browser.nova.enabled") {
-
+	
+	.browserContainer {
+  border-top: 0 !important;
+}
+	#navigator-toolbox {
+  /* Kill the native separator line */
+  border-bottom: none !important;
+  
+  /* Paint a custom bottom shadow/line that respects the true underlying composite */
+  box-shadow: inset 0 -1px 0 0 var(--chrome-content-separator-color) !important;
+}
+	.urlbar, #searchbar {
+		--urlbar-background-border: var(--urlbar-input-container-border-width) solid var(--chrome-content-separator-color) !important;
+	}
 	.urlbar-go-button {
 	  margin-inline-end: -6px !important;
 	}
