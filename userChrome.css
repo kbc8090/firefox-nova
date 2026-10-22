@@ -321,14 +321,14 @@
 
 /* Better separator colors for the bookmark bar */
 #PlacesToolbarItems>toolbarseparator {
-  color: color-mix(in srgb, var(--chrome-content-separator-color) 65%, var(--tab-text-color-selected)) !important;
+  color: color-mix(in srgb, currentColor 28%, transparent) !important;
   padding-block: 5px !important;
 }
 
-/* Moves newtab button to the left by 1px */
+/* Moves newtab button to the left by 1px
 #tabs-newtab-button {
 	margin-inline-start: 1px !important;
-}
+} */
 
 /* Better styling of the bottom left link loading thing to match other stuff */
 #statuspanel-label {
@@ -790,7 +790,7 @@ padding-right: 5px !important;
   top: calc(25% + 1px) !important;
   height: 50% !important;
   width: 1px !important;
-  background-color: color-mix(in srgb, var(--lwt-tab-text, currentColor) 35%, transparent) !important;
+  background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
   z-index: 1 !important; /* Keep above tab background */
   opacity: 1 !important;
   transition: opacity 60ms cubic-bezier(0.55, 0.55, 0, 1) !important;
@@ -1173,6 +1173,37 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
  
 #trustpanel-popup[tracking-protection="enabled"] #trustpanel-blocker-section > moz-button-group {
     margin-inline-start: auto !important;
+}
+
+.urlbar-background {
+  .urlbar[popover-open] > & {
+    background-image: 
+      linear-gradient(
+        color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
+        color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
+      ),
+      var(--toolbox-background-gradient) !important;
+    background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+    background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+    background-attachment: fixed !important;
+  }
+}
+
+.urlbarView-background {
+  background-image: 
+    linear-gradient(
+      color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
+      color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
+    ),
+    var(--toolbox-background-gradient) !important;
+  background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+  background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+  background-attachment: fixed !important;
+}
+
+/* URL bar focused/selected state (before dropdown opens) */
+#urlbar[focused]:not([popover-open]) .urlbar-background {
+  background-color: var(--urlbar-background-color) !important;
 }
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
