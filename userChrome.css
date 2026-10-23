@@ -354,21 +354,32 @@ toolbarseparator {
   color: var(--chrome-content-separator-color, ThreeDShadow) !important;
 }
 
+/* Strip native window frame (pointer-events left untouched) */
+menupopup, panel {
+  -moz-appearance: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 /* More consistent context menus with the current theme */
 menupopup,panel {
-  --panel-background-color: var(--lwt-accent-color, Menu) !important;
-  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
+  --panel-background-color: Menu !important;
+  --panel-border-color: var(--chrome-content-separator-color) !important;
 }
 
 menu, menuitem {
   &:where([_moz-menuactive]:not([disabled])) {
-	background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
-	}
+	/* background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important; */
+	background-color: var(--button-background-color-menu-hover) !important;
+	
+  }
 }
 
 menuitem {
     &[_moz-menuactive]:not([disabled="true"]):active {
-      background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
+    /*  background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important; */
+	background-color: var(--button-background-color-menu-active) !important;
     }
   }
   
@@ -416,13 +427,7 @@ menuitem[disabled] {
   --popup-box-shadow: var(--soft-menu-shadow) !important;
 }
 
-/* Strip native window frame (pointer-events left untouched) */
-menupopup, panel {
-  -moz-appearance: none !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
+
 
 /* Apply shadow strictly to the inner rounded box */
 .menupopup-arrowscrollbox,
@@ -1024,6 +1029,48 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 /* Updated for Firefox 157 Popover API & Nova Refactor */
 @media -moz-pref("browser.nova.enabled") {
 	
+
+	:root {
+	  --panel-list-background-color: Menu !important;
+	  --panel-list-border-radius: 8px !important;
+	  --panel-list-border-color: linear-gradient(
+		96deg,
+		color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
+		color-mix(in srgb, var(--tab-border-color-selected-trailing) 62%, transparent) 79.34%
+	  ) !important;
+	}
+	
+	.urlbar-background {
+	  .urlbar[popover-open] > & {
+		background-image: 
+		  linear-gradient(
+			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
+			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
+		  ),
+		  var(--toolbox-background-gradient) !important;
+		background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+		background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+		background-attachment: fixed !important;
+	  }
+	}
+
+	.urlbarView-background {
+	  background-image: 
+		linear-gradient(
+		  color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
+		  color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
+		),
+		var(--toolbox-background-gradient) !important;
+	  background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+	  background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+	  background-attachment: fixed !important;
+	}
+
+	/* URL bar focused/selected state (before dropdown opens) */
+	#urlbar[focused]:not([popover-open]) .urlbar-background {
+	  background-color: var(--urlbar-background-color) !important;
+	}	
+	
 	  /* Kill the native separator line */
 	.browserContainer {
 		border-top: 0 !important;
@@ -1090,50 +1137,50 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 	/* Dropdown rows & buttons */
 	.urlbarView-row {
-	padding: 2px !important;
-	/* border: 2px solid transparent !important; */
+		padding: 2px !important;
+		/* border: 2px solid transparent !important; */
 		--urlbarView-icon-margin-start: 6px !important;
 		--urlbarView-icon-margin-end: 7px !important;
 	}
 
-  .urlbarView-row-inner {
-    padding-block: 0.36rem !important;
-  }
+	  .urlbarView-row-inner {
+		padding-block: 0.36rem !important;
+	}
 
-  .urlbarView-button {
-    min-width: 20px !important;
-    min-height: 20px !important;
-    border-radius: 100px !important;
-  }
-  
+	  .urlbarView-button {
+		min-width: 20px !important;
+		min-height: 20px !important;
+		border-radius: 100px !important;
+	}
+	  
 
-  .urlbarView-results {
-    margin-top: -3px !important;
-  }
+	  .urlbarView-results {
+		margin-top: -3px !important;
+	}
 
 
-  /* Remove focus outline on active popover container */
-  #urlbar:is([popover-open]) > .urlbar-input-container {
-    outline: none !important;
-	outline-offset: none !important;
-  }
+	  /* Remove focus outline on active popover container */
+	  #urlbar:is([popover-open]) > .urlbar-input-container {
+		outline: none !important;
+		outline-offset: none !important;
+	}
 
-  #appMenu-nova-switch-device-promo {
-    display: none !important;
-  }
+	  #appMenu-nova-switch-device-promo {
+		display: none !important;
+	}
 
-  #downloadsListBox > richlistitem {
-    border-radius: var(--border-radius-small) !important;
-  }
+	  #downloadsListBox > richlistitem {
+		border-radius: var(--border-radius-small) !important;
+	}
 
-  .downloadProgress {
-    background-color: color-mix(in srgb, currentColor 17%, transparent) !important;
-  }
+	  .downloadProgress {
+		background-color: color-mix(in srgb, currentColor 17%, transparent) !important;
+	}
 
-  #trustpanel-popup-multiView,
-  #trustpanel-popup panelmultiview {
-    margin-block: -2px !important;
-  }
+	  #trustpanel-popup-multiView,
+	  #trustpanel-popup panelmultiview {
+		margin-block: -2px !important;
+	}
 }
 
 /* Fix for v157 #urlbar-container height (padding-block refactor) */
@@ -1175,36 +1222,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
     margin-inline-start: auto !important;
 }
 
-.urlbar-background {
-  .urlbar[popover-open] > & {
-    background-image: 
-      linear-gradient(
-        color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
-        color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
-      ),
-      var(--toolbox-background-gradient) !important;
-    background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
-    background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
-    background-attachment: fixed !important;
-  }
-}
 
-.urlbarView-background {
-  background-image: 
-    linear-gradient(
-      color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
-      color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
-    ),
-    var(--toolbox-background-gradient) !important;
-  background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
-  background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
-  background-attachment: fixed !important;
-}
-
-/* URL bar focused/selected state (before dropdown opens) */
-#urlbar[focused]:not([popover-open]) .urlbar-background {
-  background-color: var(--urlbar-background-color) !important;
-}
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
 
