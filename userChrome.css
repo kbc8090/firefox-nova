@@ -362,27 +362,52 @@ menupopup, panel {
   box-shadow: none !important;
 }
 
-/* More consistent context menus with the current theme */
-menupopup,panel {
-  --panel-background-color: Menu !important;
-  --panel-border-color: var(--chrome-content-separator-color) !important;
+/* Menus and panels: gradient ring (same as the selected tab) + lavender hover.
+   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
+   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
+menupopup, panel {
+  --panel-border-color: transparent !important;
+  --panel-background-color:
+    /* fill: purple-weighted (midpoint at 60%), orange pulled back */
+    linear-gradient(
+      96deg,
+      color-mix(in srgb, var(--tab-border-color-selected-leading) 14%, #0a090c) 30.67%,
+      color-mix(in srgb, var(--tab-border-color-selected-trailing) 10%, #0a090c) 89.33%
+    ) padding-box,
+    /* ring: same gradient as the selected tab, blended toward the dark fill */
+    linear-gradient(
+      96deg,
+      color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, #26202e) 20.68%,
+      color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, #26202e) 79.34%
+    ) border-box !important;
+
+
 }
 
-menu, menuitem {
-  &:where([_moz-menuactive]:not([disabled])) {
-	/* background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important; */
-	background-color: var(--button-background-color-menu-hover) !important;
-	
-  }
-}
-
-menuitem {
-    &[_moz-menuactive]:not([disabled="true"]):active {
-    /*  background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important; */
-	background-color: var(--button-background-color-menu-active) !important;
-    }
+/* Ensure active hover strictly ignores any disabled state */
+menu:not([disabled]):not([disabled="true"]), 
+menuitem:not([disabled]):not([disabled="true"]) {
+  &:where([_moz-menuactive]) {
+    background-color: var(--button-background-color-menu-hover) !important;
   }
   
+  &[_moz-menuactive]:active {
+    background-color: var(--button-background-color-menu-active) !important;
+  }
+}
+
+/* Target disabled menus and menuitems to completely kill hover backgrounds */
+#mainPopupSet :is(menu, menuitem)[disabled],
+:is(menu, menuitem)[disabled] {
+    background: transparent !important;
+    background-color: transparent !important;
+    pointer-events: none !important; /* Stops mouse movement from triggering hover states */
+}
+
+/* Ensure active/hover states never apply to a disabled parent menu */
+:is(menu, menuitem)[disabled]:where([_moz-menuactive]) {
+    background-color: transparent !important;
+}
   
   /* Make the menu separators more even */
   menuseparator {
@@ -1277,5 +1302,33 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	richlistbox {
 	  border: none !important;
 	}
+	
+	/* Strip native window frame (pointer-events left untouched) */
+menupopup, panel {
+  -moz-appearance: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* More consistent context menus with the current theme */
+menupopup,panel {
+  --panel-background-color: Menu !important;
+  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
+}
+
+menu, menuitem {
+  &:where([_moz-menuactive]:not([disabled])) {
+	/* background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important; */
+	background-color: var(--toolbarbutton-background-color-hover) !important;
+	
+  }
+}
+
+menuitem {
+  &[_moz-menuactive]:not([disabled]):active {
+    background-color: var(--toolbarbutton-background-color-active) !important;
+  }
+}
     
   }
