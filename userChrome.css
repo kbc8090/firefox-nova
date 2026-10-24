@@ -330,15 +330,34 @@
 	margin-inline-start: 1px !important;
 } */
 
-/* Better styling of the bottom left link loading thing to match other stuff */
+/* Status panel (bottom-left link/loading label), styled like the menus */
 #statuspanel-label {
-    background-color: var(--lwt-accent-color, Menu) !important;
-	border-color: var(--chrome-content-separator-color) !important;
-    border-left: none !important;
-    border-bottom: none !important;
-    border-radius: 0px 6px 0px 0px !important;
-    padding: 2px !important;
-	padding-inline: 6px !important;
+  --_menu-base: var(--toolbox-bgcolor, Canvas);
+  --_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+  --_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+
+  border: 1px solid transparent !important;
+  border-left: none !important;
+  border-bottom: none !important;
+  border-radius: 0px 6px 0px 0px !important;
+  padding: 2px !important;
+  padding-inline: 6px !important;
+
+  background:
+    /* fill: same as the menus */
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+      color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+    ) padding-box,
+    /* opaque base */
+    linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+    /* ring: selected-tab gradient, blended toward the base */
+    linear-gradient(
+      96deg,
+      color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, var(--_menu-base)) 20.68%,
+      color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, var(--_menu-base)) 79.34%
+    ) border-box !important;
 }
 
 
@@ -366,22 +385,26 @@ menupopup, panel {
    Firefox paints ::part(content) with `background: var(--panel-background-color)` and
    `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
 menupopup, panel {
+  --_menu-base: var(--toolbox-bgcolor, Canvas);
+  --_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+  --_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+
   --panel-border-color: transparent !important;
   --panel-background-color:
-    /* fill: purple-weighted (midpoint at 60%), orange pulled back */
+    /* fill: toolbar purple at the top-left, drifting clearly toward orange at the bottom-right */
+linear-gradient(
+  145deg,
+  color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+  color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+) padding-box,
+    /* opaque base under it */
+    linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+    /* ring: same gradient as the selected tab, blended toward the base */
     linear-gradient(
       96deg,
-      color-mix(in srgb, var(--tab-border-color-selected-leading) 14%, #0a090c) 30.67%,
-      color-mix(in srgb, var(--tab-border-color-selected-trailing) 10%, #0a090c) 89.33%
-    ) padding-box,
-    /* ring: same gradient as the selected tab, blended toward the dark fill */
-    linear-gradient(
-      96deg,
-      color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, #26202e) 20.68%,
-      color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, #26202e) 79.34%
+      color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, var(--_menu-base)) 20.68%,
+      color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, var(--_menu-base)) 79.34%
     ) border-box !important;
-
-
 }
 
 /* Ensure active hover strictly ignores any disabled state */
