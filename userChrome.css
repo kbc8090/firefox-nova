@@ -10,21 +10,23 @@
 */
 
 :root {
-    /* --chrome-content-separator-color: color-mix(in srgb, var(--toolbar-background-color), white 11%) !important; */
-	--chrome-content-separator-color: color-mix(in srgb, var(--panel-banner-item-active-bgcolor), transparent 76%) !important;
+	@media not -moz-pref("browser.nova.enabled") {
+		--chrome-content-separator-color: color-mix(in srgb, var(--toolbar-background-color), white 11%) !important;
+		--uei-button-hover-bgcolor: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
+		--uei-button-active-bgcolor: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 30%, transparent)) !important;
+		--button-background-color-ghost-hover: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
+		--button-background-color-ghost-active: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
+		--button-background-color-menu-hover: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
+		--button-background-color-menu-active: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
+	}
+	@media -moz-pref("browser.nova.enabled") {
+		--chrome-content-separator-color: color-mix(in srgb, var(--panel-banner-item-active-bgcolor), transparent 76%) !important;
+	}
     --tab-min-height: 27px !important; /* Locks your preferred tab height */
 	--arrowpanel-menuitem-border-radius: 4px !important;
 	--menuitem-border-radius: 4px !important;
 	--urlbarview-background-color-selected: var(--lwt-popup-highlight, color-mix(in srgb, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) 66%, black)) !important;
 	--button-border-radius: 6px !important;
-	/*
-	--uei-button-hover-bgcolor: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
-	--uei-button-active-bgcolor: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 30%, transparent)) !important;
-	--button-background-color-ghost-hover: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
-	--button-background-color-ghost-active: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
-	--button-background-color-menu-hover: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
-	--button-background-color-menu-active: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
-	*/
     --default-focusring-width: 0px !important;
     --default-focusring: var(--default-focusring-width) solid !important;
 }
@@ -128,7 +130,9 @@
 #context_sendTabToDevice_separator,
 #context_shareSelectedTabsSeparator,
 #context_sendTabToDeviceSeparator,
-#context-stripOnShareLink {
+#context-stripOnShareLink,
+#context-sendvideo,
+#context-sendimage {
     display: none !important;
 }
 
@@ -137,17 +141,12 @@
     display: none !important;
 }
 
-/* Delete "Email Image" in right click context menu */
-#context-sendimage {
-    display: none !important;
-}
-
 #placesContext_openSeparator {
-  display: none !important;
+	display: none !important;
  }
 
 .tabbrowser-tab {
-    margin-top: -1px !important;
+	margin-top: -1px !important;
 	padding: 0 2px !important;
 }
 
@@ -182,7 +181,7 @@
 
 /* 1. Increased bottom margin to 4px to lift the tabs away from the nav-bar */
 .tab-background {
-    margin-bottom: 4px !important;
+	margin-bottom: 4px !important;
     border-radius: 6px !important; 
 }
 
@@ -296,14 +295,7 @@
     box-shadow: none !important;
 } */
 
-.tabbrowser-tab[selected] > .tab-stack > .tab-background {
-  --tab-border-color-accent: linear-gradient(
-    96deg,
-    color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
-    color-mix(in srgb, var(--tab-border-color-selected-trailing) 62%, transparent) 79.34%
-  ) !important;
-  --tab-background-color-selected: linear-gradient( 96deg, color-mix(in srgb, var(--tab-border-color-selected-leading) 24%, transparent) 20.68%, color-mix(in srgb, color-mix(in srgb, var(--tab-border-color-selected-trailing) 64%, gray) 18%, transparent) 79.34% ) !important;
-}
+
 
 /* Change URL bar height so the contents of it are even inside it */
 
@@ -311,36 +303,36 @@
 
 /* Make the badges on addons look better (i.e. ublock Origin block number) */
 .toolbarbutton-badge {
-  color: var(--tab-text-color-selected) !important;
-/* This forces the variable to be 100% opaque, ignoring its alpha channel */
-  background-color: color-mix(in srgb, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) 66%, black) !important;
-  text-shadow: 1px 1px 2px black !important;
-  font-family: "Inter" !important;
-  font-smooth: always !important;
-  text-rendering: optimizelegibility !important;
-  font-size: 9px !important;
-  text-align: center !important;
-  justify-content: center !important;
-  font-weight: 600 !important;
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  padding-left: 1px !important;
-  padding-right: 1px !important;
-  border: 0px !important;
-  border-radius: 4px !important;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.35)) !important;
+	color: var(--tab-text-color-selected) !important;
+	/* This forces the variable to be 100% opaque, ignoring its alpha channel */
+	background-color: color-mix(in srgb, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) 66%, black) !important;
+	text-shadow: 1px 1px 2px black !important;
+	font-family: "Inter" !important;
+	font-smooth: always !important;
+	text-rendering: optimizelegibility !important;
+	font-size: 9px !important;
+	text-align: center !important;
+	justify-content: center !important;
+	font-weight: 600 !important;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	padding-left: 1px !important;
+	padding-right: 1px !important;
+	border: 0px !important;
+	border-radius: 4px !important;
+	filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.35)) !important;
 }
 
 #urlbar-zoom-button {
-  font-family: "Inter" !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
+	font-family: "Inter" !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
 }
 
 /* Better separator colors for the bookmark bar */
 #PlacesToolbarItems>toolbarseparator {
-  color: color-mix(in srgb, currentColor 28%, transparent) !important;
-  padding-block: 5px !important;
+	color: color-mix(in srgb, currentColor 28%, transparent) !important;
+	padding-block: 5px !important;
 }
 
 /* Moves newtab button to the left by 1px
@@ -350,32 +342,32 @@
 
 /* Status panel (bottom-left link/loading label), styled like the menus */
 #statuspanel-label {
-  --_menu-base: var(--toolbox-bgcolor, Canvas);
-  --_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-  --_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+	--_menu-base: var(--toolbox-bgcolor, Canvas);
+	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
 
-  border: 1px solid transparent !important;
-  border-left: none !important;
-  border-bottom: none !important;
-  border-radius: 0px 6px 0px 0px !important;
-  padding: 2px !important;
-  padding-inline: 6px !important;
+	border: 1px solid transparent !important;
+	border-left: none !important;
+	border-bottom: none !important;
+	border-radius: 0px 6px 0px 0px !important;
+	padding: 2px !important;
+	padding-inline: 6px !important;
 
-  background:
-    /* fill: same as the menus */
-    linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
-      color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
-    ) padding-box,
-    /* opaque base */
-    linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
-    /* ring: selected-tab gradient, blended toward the base */
-    linear-gradient(
-      96deg,
-      color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, var(--_menu-base)) 20.68%,
-      color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, var(--_menu-base)) 79.34%
-    ) border-box !important;
+	background:
+	/* fill: same as the menus */
+	linear-gradient(
+	  145deg,
+	  color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+	  color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+	) padding-box,
+	/* opaque base */
+	linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+	/* ring: selected-tab gradient, blended toward the base */
+	linear-gradient(
+	  96deg,
+	  color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, var(--_menu-base)) 20.68%,
+	  color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, var(--_menu-base)) 79.34%
+	) border-box !important;
 }
 
 
@@ -388,71 +380,55 @@ menuseparator {
 }
 
 toolbarseparator {
-  color: var(--chrome-content-separator-color, ThreeDShadow) !important;
+	color: var(--chrome-content-separator-color, ThreeDShadow) !important;
 }
 
 menupopup > menu::after {
-  fill: var(--text-color-deemphasized) !important;
+	fill: var(--text-color-deemphasized) !important;
 }
 
-/* Strip native window frame (pointer-events left untouched) */
-menupopup, panel {
-  -moz-appearance: none !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
 
-/* Menus and panels: gradient ring (same as the selected tab) + lavender hover.
-   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
-   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
-menupopup, panel {
-  --_menu-base: var(--toolbox-bgcolor, Canvas);
-  --_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-  --_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
-
-  --panel-border-color: transparent !important;
-  --panel-background-color:
-    /* fill: toolbar purple at the top-left, drifting clearly toward orange at the bottom-right */
-linear-gradient(
-  145deg,
-  color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
-  color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
-) padding-box,
-    /* opaque base under it */
-    linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
-    /* ring: same gradient as the selected tab, blended toward the base */
-    linear-gradient(
-      96deg,
-      color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
-      color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
-    ) border-box !important;
-}
-
-/* Ensure active hover strictly ignores any disabled state */
-menu:not([disabled]):not([disabled="true"]), 
-menuitem:not([disabled]):not([disabled="true"]) {
-  &:where([_moz-menuactive]) {
-    background-color: var(--button-background-color-menu-hover) !important;
-  }
   
-  &[_moz-menuactive]:active {
-    background-color: var(--button-background-color-menu-active) !important;
-  }
+  /* Make the menu separators more even */
+  menuseparator {
+	padding: 0 !important;
+	margin-inline: 0px !important;
+	margin-block: 4px !important; /* Adjust this to control vertical spacing above/below the line */
 }
 
-/* Target disabled menus and menuitems to completely kill hover backgrounds */
-#mainPopupSet :is(menu, menuitem)[disabled],
-:is(menu, menuitem)[disabled] {
+#mainPopupSet menuitem,
+#mainPopupSet menu,
+menupopup menuitem,
+menupopup menu {
+    border-radius: 4px !important;
+}
+  
+/* Target disabled menu items regardless of whether the attribute value is empty or "true" */
+#mainPopupSet menuitem[disabled][_moz-menuactive="true"],
+#mainPopupSet menuitem[disabled],
+menuitem[disabled] {
     background: transparent !important;
     background-color: transparent !important;
-    pointer-events: none !important; /* Stops mouse movement from triggering hover states */
 }
 
-/* Ensure active/hover states never apply to a disabled parent menu */
-:is(menu, menuitem)[disabled]:where([_moz-menuactive]) {
-    background-color: transparent !important;
+/* More consistent context menus with the current theme */
+menupopup,panel {
+  --panel-background-color: var(--lwt-accent-color, Menu) !important;
+  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
 }
+
+menu, menuitem {
+  &:where([_moz-menuactive]:not([disabled])) {
+	background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
+	}
+}
+
+menuitem {
+    &[_moz-menuactive]:not([disabled="true"]):active {
+      background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
+    }
+  }
+  
   
   /* Make the menu separators more even */
   menuseparator {
@@ -476,25 +452,44 @@ menuitem[disabled] {
     background-color: transparent !important;
 }
 
+@media not -moz-pref("browser.nova.enabled") {
+	menupopup,panel {
+	  --panel-background-color: var(--lwt-accent-color, Menu) !important;
+	  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
+	}
+
+	menu, menuitem {
+	  &:where([_moz-menuactive]:not([disabled])) {
+		background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
+		}
+	}
+
+	menuitem {
+		&[_moz-menuactive]:not([disabled="true"]):active {
+		  background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
+		}
+	  }
+  }
+
 /* Making the context and other mensu look a little better and even */
 @media (-moz-platform: windows), (-moz-platform: linux) {
-    menupopup, panel:not(#autoscroller) {
-        --panel-border-radius: 8px !important;
-        border-radius: var(--panel-border-radius) !important;
-    }
+	menupopup, panel:not(#autoscroller) {
+		--panel-border-radius: 8px !important;
+		border-radius: var(--panel-border-radius) !important;
+	}
 }
 
 :root {
-  /* 1. Tight margin so the popup window doesn't block adjacent bookmarks */
-  --panel-box-shadow-margin: 6px !important;
+	/* 1. Tight margin so the popup window doesn't block adjacent bookmarks */
+	--panel-box-shadow-margin: 6px !important;
 
-  /* 2. Soft shadow tuned with negative spread to fit inside 6px without clipping */
-  --soft-menu-shadow: 
-    0 3px 8px -2px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.55)),
-    0 1px 4px -1px light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.35));
+	/* 2. Soft shadow tuned with negative spread to fit inside 6px without clipping */
+	--soft-menu-shadow: 
+	0 3px 8px -2px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.55)),
+	0 1px 4px -1px light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.35));
 
-  --panel-box-shadow: var(--soft-menu-shadow) !important;
-  --popup-box-shadow: var(--soft-menu-shadow) !important;
+	--panel-box-shadow: var(--soft-menu-shadow) !important;
+	--popup-box-shadow: var(--soft-menu-shadow) !important;
 }
 
 
@@ -502,7 +497,7 @@ menuitem[disabled] {
 /* Apply shadow strictly to the inner rounded box */
 .menupopup-arrowscrollbox,
 .panel-arrowcontent {
-  box-shadow: var(--soft-menu-shadow) !important;
+	box-shadow: var(--soft-menu-shadow) !important;
 }
 
 
@@ -513,13 +508,16 @@ menuitem[disabled] {
 /* 1. Base / Idle state transition */
 #urlbar:not([open]) .urlbar-background, 
 #searchbar:not([open]) {
-  transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important; 
+	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important; 
 }
 
 /* 2. Main URL bar hover state */
 #urlbar:not([focused]):hover .urlbar-background, 
 #searchbar:hover {
-  background-color: color-mix(in srgb, var(--color-violet-desaturated-30) 20%, transparent) !important;
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-30) 20%, transparent) !important;
+	@media not -moz-pref("browser.nova.enabled") {
+		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
+	}
 }
 
 /* 3. Icon hover state (Consolidated) */
@@ -531,39 +529,39 @@ menuitem[disabled] {
   #tracking-protection-icon-container:hover,
   .notification-anchor-icon:hover
 ) .urlbar-background {
-  background-color: var(--toolbar-field-background-color) !important;
+	background-color: var(--toolbar-field-background-color) !important;
 	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important; 
 }
 
 /* 4. Instant snap when clicked or expanded */
 #urlbar[open][breakout][breakout-extend] .urlbar-background {
-  transition: none !important;
+	transition: none !important;
 }
 
 /* Change border color of the breakout urlbar to be a proper color */
 @media not -moz-pref("browser.nova.enabled") {
 	@media not (forced-colors) {
-  .close-icon:hover {
-    background-color: var(--toolbarbutton-background-color-hover) !important;
-  }
-}
+		.close-icon:hover {
+			background-color: var(--toolbarbutton-background-color-hover) !important;
+		}
+	}
 
-@media not (forced-colors) {
-  .close-icon:active {
-    background-color: var(--toolbarbutton-background-color-active) !important;
-  }
-}
+	@media not (forced-colors) {
+	  .close-icon:active {
+		background-color: var(--toolbarbutton-background-color-active) !important;
+	  }
+	}
 
 	
-  [open] > .urlbar-background {
-    border-color: var(--chrome-content-separator-color) !important;
-  }
+	[open] > .urlbar-background {
+		border-color: var(--chrome-content-separator-color) !important;
+	}
 }
 
 /* Force the background and text color for the popup itself */
 #ContentSelectDropdownPopup {
-    --panel-background-color: -moz-Field !important;
-    background-color: -moz-Field !important;
+	--panel-background-color: -moz-Field !important;
+	background-color: -moz-Field !important;
 }
 
 #ContentSelectDropdownPopup menuitem:where([_moz-menuactive]:not([disabled])) {
@@ -612,25 +610,25 @@ menuitem[disabled] {
 }
 
 .browserContainer > findbar {
-    position: fixed !important;
-    contain: content !important;
-    top: -1px !important;
-    right: 18px !important;
-    margin: 4px 0px 0 5px !important;
-    transform-origin: top right;
-    border-radius: 8px !important;
-    padding-inline-start: 4px;
-	
+	position: fixed !important;
+	contain: content !important;
+	top: -1px !important;
+	right: 18px !important;
+	margin: 4px 0px 0 5px !important;
+	transform-origin: top right;
+	border-radius: 8px !important;
+	padding-inline-start: 4px;
+
 	/* Kill native animation lag for instant open/close */
-    animation: none !important;
-    transition: none !important;
-    
-    /* Mapped to native theme variables */
-    color: var(--lwt-text-color, var(--arrowpanel-color)) !important;
-    /* background: var(--toolbar-background-color, var(--lwt-accent-color, -moz-dialog)) !important; */
+	animation: none !important;
+	transition: none !important;
+
+	/* Mapped to native theme variables */
+	color: var(--lwt-text-color, var(--arrowpanel-color)) !important;
+	/* background: var(--toolbar-background-color, var(--lwt-accent-color, -moz-dialog)) !important; */
 	background: Menu !important;
-    border: 1px solid var(--chrome-content-separator-color, var(--panel-border-color)) !important;
-    box-shadow: var(--soft-menu-shadow) !important;
+	border: 1px solid var(--chrome-content-separator-color, var(--panel-border-color)) !important;
+	box-shadow: var(--soft-menu-shadow) !important;
  }
 
 /* Hide unused findbar checkboxes */
@@ -638,22 +636,22 @@ checkbox[anonid='find-case-sensitive'],
 checkbox[anonid='find-match-diacritics'],
 checkbox[anonid='find-entire-word'],
 checkbox[anonid='highlight'] {
-    display: none !important;
+	display: none !important;
 }
 
 /* Findbar Container & Flex Order */
 .findbar-container {
-    display: flex;
-    align-items: center !important;
-    gap: 1px !important;
-    margin-inline-start: 0 !important;
-    margin-inline-end: 0 !important;
-    height: 30px !important; /* Allows breathing room for 22px buttons */
-    flex-wrap: wrap !important;
+	display: flex;
+	align-items: center !important;
+	gap: 1px !important;
+	margin-inline-start: 0 !important;
+	margin-inline-end: 0 !important;
+	height: 30px !important; /* Allows breathing room for 22px buttons */
+	flex-wrap: wrap !important;
 }
 
 .findbar-container > * {
-    margin-inline-end: 0 !important;
+	margin-inline-end: 0 !important;
 }
 
 /* Explicit ordering */
@@ -823,8 +821,8 @@ padding-right: 5px !important;
 /* Hide checkboxes on extra small window sizes */
 @media only screen and (max-width: 550px) { 
     .findbar-container checkbox {
-        display: none !important;
-    }
+	display: none !important;
+  }
 }
 
 /* ==========================================================================
@@ -832,55 +830,55 @@ padding-right: 5px !important;
    ========================================================================== */
 
 .tabbrowser-tab[pinned] {
-  width: 42px !important; /* Default is ~36px-40px; increase to 44px-50px for more room */
+	width: 42px !important; /* Default is ~36px-40px; increase to 44px-50px for more room */
 }
 
 .tabbrowser-tab[pinned] .tab-label-container {
-  display: none !important;
+	display: none !important;
 }
 
 /* Center the favicon perfectly on widened pinned tabs */
 .tabbrowser-tab[pinned] .tab-content {
-  justify-content: center !important;
-  padding-inline: 0 !important;
+	justify-content: center !important;
+	padding-inline: 0 !important;
 }
 
 /* Remove the leftover spacing meant for the text label */
 .tabbrowser-tab[pinned] :is(.tab-icon-image, .tab-throbber) {
-  margin-inline: 0 !important;
+	margin-inline: 0 !important;
 }
 
 /* Allow pinned tabs and container to render overflow separators */
 #pinned-tabs-container,
 .tabbrowser-tab[pinned] {
-  overflow: visible !important;
+	overflow: visible !important;
 }
 
 /* 1. Base / Inactive State: Smooth 700ms fade back in */
 .tabbrowser-tab::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  right: 0px !important; /* Set to 0px so overflow clipping does not cut it off */
-  top: calc(25% + 1px) !important;
-  height: 50% !important;
-  width: 1px !important;
-  background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
-  z-index: 1 !important; /* Keep above tab background */
-  opacity: 1 !important;
-  transition: opacity 60ms cubic-bezier(0.55, 0.55, 0, 1) !important;
+	content: "" !important;
+	display: block !important;
+	position: absolute !important;
+	right: 0px !important; /* Set to 0px so overflow clipping does not cut it off */
+	top: calc(25% + 1px) !important;
+	height: 50% !important;
+	width: 1px !important;
+	background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
+	z-index: 1 !important; /* Keep above tab background */
+	opacity: 1 !important;
+	transition: opacity 60ms cubic-bezier(0.55, 0.55, 0, 1) !important;
 }
 
 /* 2. Active Interaction State: Instant snap-out (no transition) */
 .tabbrowser-tab:is([selected], [multiselected], :hover)::after,
 .tabbrowser-tab:has(+ .tabbrowser-tab:is([selected], [multiselected], :hover))::after {
-  opacity: 0 !important;
-  transition: none !important;
+	opacity: 0 !important;
+	transition: none !important;
 }
 
 #tabbrowser-tabs:has(.tabbrowser-tab:not([pinned]):first-of-type:is([selected], [multiselected], :hover)) .tabbrowser-tab[pinned]:last-of-type::after {
-  opacity: 0 !important;
-  transition: none !important;
+	opacity: 0 !important;
+	transition: none !important;
 }
 
 /* Nudge the final separator left, but explicitly ignore pinned tabs
@@ -889,46 +887,48 @@ padding-right: 5px !important;
 } */
 
 tab-split-view-wrapper{
-  background-size: 1px 100%;
+	background-size: 1px 100%;
 }
-@media -moz-pref("sidebar.verticalTabs"){
-  #tabbrowser-tabs{
-    --uc-vertical-tabs-expanded-separator: linear-gradient(to right,
-      transparent 10cqw,
-      color-mix(in srgb, currentColor 30%, transparent) 10cqw,
-      color-mix(in srgb, currentColor 30%, transparent) 90cqw,
-      transparent 90cqw
-    );
-  }
-  :where(.tabbrowser-tab){
-    background-image: linear-gradient(color-mix(in srgb, currentColor 20%, transparent));
-    background-size: 60% 1px;
-    background-position-x: center;
-  }
-  :where(#tabbrowser-tabs[expanded] .tabbrowser-tab){
-    background-image: var(--uc-vertical-tabs-expanded-separator);
-    background-size: 90cqw 1px;
-  }
-  #tabbrowser-tabs[expanded] > #pinned-tabs-container > .tabbrowser-tab{
-    background-image: none;
-  }
-  tab-split-view-wrapper{
-    background-size: 90cqw 1px;
-  }
-  #tabbrowser-tabs[expanded] tab-split-view-wrapper >.tabbrowser-tab:last-child{
-    background-size: 90cqw 1px;
-    background-image: var(--uc-vertical-tabs-expanded-separator);
-    @container vertical-tabs-container (min-width: 210px){
-      background-size: inherit;
-    }
-  }
+@media -moz-pref("sidebar.verticalTabs") {
+	#tabbrowser-tabs {
+		--uc-vertical-tabs-expanded-separator: linear-gradient(to right,
+		  transparent 10cqw,
+		  color-mix(in srgb, currentColor 30%, transparent) 10cqw,
+		  color-mix(in srgb, currentColor 30%, transparent) 90cqw,
+		  transparent 90cqw) !important;
+	}
+	:where(.tabbrowser-tab) {
+		background-image: linear-gradient(color-mix(in srgb, currentColor 20%, transparent));
+		background-size: 60% 1px;
+		background-position-x: center;
+	}
+	:where(#tabbrowser-tabs[expanded] .tabbrowser-tab) {
+		background-image: var(--uc-vertical-tabs-expanded-separator);
+		background-size: 90cqw 1px;
+	}
+	#tabbrowser-tabs[expanded] > #pinned-tabs-container > .tabbrowser-tab {
+		background-image: none;
+	}
+	tab-split-view-wrapper {
+		background-size: 90cqw 1px;
+	}
+	#tabbrowser-tabs[expanded] tab-split-view-wrapper >.tabbrowser-tab:last-child {
+		background-size: 90cqw 1px;
+		background-image: var(--uc-vertical-tabs-expanded-separator);
+		@container vertical-tabs-container (min-width: 210px) {
+			background-size: inherit;
+		}
+	}
 }
+
 tab-split-view-wrapper > .tabbrowser-tab{
-  background-size: inherit;
+	background-size: inherit;
 }
+
 tab-split-view-wrapper > .tabbrowser-tab:last-child{
-  background-image: none;
+	background-image: none;
 }
+
 tab-group > slot + :is(tab-split-view-wrapper,.tabbrowser-tab),
 tab-group[collapsed] + :is(tab-split-view-wrapper,.tabbrowser-tab),
 :is(tab-split-view-wrapper,.tabbrowser-tab):is([selected],[multiselected],[hasactivetab],:hover),
@@ -939,8 +939,8 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 #pinned-tabs-container:empty ~ arrowscrollbox > :first-child,
 #tabbrowser-arrowscrollbox[overflowing] > :first-child,
 #pinned-tabs-container:has( > :last-child:is(:hover,[selected],[multiselected])) ~ arrowscrollbox > :first-child,
-#vertical-pinned-tabs-splitter:not([hidden]) ~ arrowscrollbox[orient="vertical"] > :first-child{
-  background-size: 0 0;
+#vertical-pinned-tabs-splitter:not([hidden]) ~ arrowscrollbox[orient="vertical"] > :first-child {
+	background-size: 0 0;
 }
 
 /* Fixing Download Panel Menu Spacing */
@@ -950,28 +950,28 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		margin-inline-end: -4px !important;
 		padding: 4px !important;
 	}
-  min-width: 37em;
-  padding: 4px !important;
-  border-radius: 8px !important;
+	min-width: 37em;
+	padding: 4px !important;
+	border-radius: 8px !important;
 }
 
 /* Add looping animation like Chrome for tab loading */
 .tab-throbber,
 .tab-throbber[connecting],
 .tab-throbber[progress] {
-  opacity: 1 !important;
+	opacity: 1 !important;
 }
 
 .tab-throbber[busy]::before {
-  background-image: none !important;
-  content: "" !important;
-  display: block !important;
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
+	background-image: none !important;
+	content: "" !important;
+	display: block !important;
+	width: 12px !important;
+	height: 12px !important;
+	border-radius: 50% !important;
 
   /* 1. Track: 30% opacity of a 50/50 blend of currentColor & focus color */
-  border: 2px solid color-mix(
+	border: 2px solid color-mix(
     in srgb, 
     color-mix(in srgb, currentColor 70%, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1)) 30%, 
     transparent
@@ -1099,6 +1099,64 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 /* Updated for Firefox 157 Popover API & Nova Refactor */
 @media -moz-pref("browser.nova.enabled") {
 	
+	/* Strip native window frame (pointer-events left untouched) */
+	menupopup, panel {
+		-moz-appearance: none !important;
+		background: transparent !important;
+		border: none !important;
+		box-shadow: none !important;
+	}
+
+	/* Menus and panels: gradient ring (same as the selected tab) + lavender hover.
+	   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
+	   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
+	menupopup, panel {
+		--_menu-base: var(--toolbox-bgcolor, Canvas);
+		--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+		--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+
+		--panel-border-color: transparent !important;
+		--panel-background-color:
+		/* fill: toolbar purple at the top-left, drifting clearly toward orange at the bottom-right */
+		linear-gradient(
+		145deg,
+		color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+		color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+		) padding-box,
+		/* opaque base under it */
+		linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+		/* ring: same gradient as the selected tab, blended toward the base */
+		linear-gradient(
+		  96deg,
+		  color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
+		  color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
+		) border-box !important;
+	}
+
+	/* Ensure active hover strictly ignores any disabled state */
+	menu:not([disabled]):not([disabled="true"]), 
+	menuitem:not([disabled]):not([disabled="true"]) {
+		&:where([_moz-menuactive]) {
+			background-color: var(--button-background-color-menu-hover) !important;
+		}
+	  
+		&[_moz-menuactive]:active {
+			background-color: var(--button-background-color-menu-active) !important;
+	  }
+	}
+
+	/* Target disabled menus and menuitems to completely kill hover backgrounds */
+	#mainPopupSet :is(menu, menuitem)[disabled],
+	:is(menu, menuitem)[disabled] {
+		background: transparent !important;
+		background-color: transparent !important;
+		pointer-events: none !important; /* Stops mouse movement from triggering hover states */
+	}
+
+	/* Ensure active/hover states never apply to a disabled parent menu */
+	:is(menu, menuitem)[disabled]:where([_moz-menuactive]) {
+		background-color: transparent !important;
+	}
 
 	:root {
 	  --panel-list-background-color: Menu !important;
@@ -1108,6 +1166,15 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
 		color-mix(in srgb, var(--tab-border-color-selected-trailing) 62%, transparent) 79.34%
 	  ) !important;
+	}
+	
+	.tabbrowser-tab[selected] > .tab-stack > .tab-background {
+		--tab-border-color-accent: linear-gradient(
+		96deg,
+		color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
+		color-mix(in srgb, var(--tab-border-color-selected-trailing) 62%, transparent) 79.34%
+		) !important;
+		--tab-background-color-selected: linear-gradient( 96deg, color-mix(in srgb, var(--tab-border-color-selected-leading) 24%, transparent) 20.68%, color-mix(in srgb, color-mix(in srgb, var(--tab-border-color-selected-trailing) 64%, gray) 18%, transparent) 79.34% ) !important;
 	}
 	
 	.urlbar-background {
@@ -1179,7 +1246,6 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  -webkit-mask-image: none !important;
 	}
 
-
 	  /* Elevated shadow when popover is open
 	  #urlbar:is([popover-open] > .urlbar-background {
 		box-shadow: rgba(0, 0, 0, 0.45) 0px 22px 36px 6px !important;
@@ -1190,7 +1256,6 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  --urlbar-background-box-shadow-open: rgba(0, 0, 0, 0.45) 0px 22px 36px 6px !important;
 	}
 
-
 	  .urlbarView {
 		:where(.urlbar:not([noresults])) > & {
 		  :where(:root[uidensity="compact"]) & {
@@ -1198,6 +1263,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		  }
 		}
 	  }
+	  
 	.urlbar {
 		/* Mix with the surface background so the line stays fully opaque */
 
@@ -1223,16 +1289,14 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		border-radius: 100px !important;
 	}
 	  
-
 	  .urlbarView-results {
 		margin-top: -3px !important;
 	}
 
-
 	  /* Remove focus outline on active popover container */
 	  #urlbar:is([popover-open]) > .urlbar-input-container {
 		outline: none !important;
-		outline-offset: none !important;
+		outline-offset: 0 !important;
 	}
 
 	  #appMenu-nova-switch-device-promo {
@@ -1347,7 +1411,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  border: none !important;
 	}
 	
-		/* Strip native window frame (pointer-events left untouched) */
+	/* Strip native window frame (pointer-events left untouched) */
 	menupopup, panel {
 	  -moz-appearance: none !important;
 	  background: transparent !important;
