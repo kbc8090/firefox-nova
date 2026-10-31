@@ -249,9 +249,6 @@
 	border-radius: var(--border-radius-small) !important;
 }
 
-
-
-
 /* 2. Force the vertical alignment of the tab content */
 .tab-content {
     display: flex !important;
@@ -294,11 +291,6 @@
     border: none !important;
     box-shadow: none !important;
 } */
-
-
-
-/* Change URL bar height so the contents of it are even inside it */
-
 
 
 /* Make the badges on addons look better (i.e. ublock Origin block number) */
