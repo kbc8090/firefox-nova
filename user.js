@@ -42,6 +42,7 @@ user_pref("dom.timeout.budget_throttling_max_delay", -1);
 user_pref("media.wmf.hevc.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.urlbar-button.enabled", false);
 user_pref("dom.ipc.processPriorityManager.backgroundUsesEcoQoS", false);
+user_pref("dom.ipc.processPriorityManager.foregroundRaisesMainThreadPriority", true);
 user_pref("dom.ipc.processCount", 4);
 user_pref("dom.ipc.processCount.webIsolated", 5);
 user_pref("dom.ipc.processPrelaunch.fission.number", 1);
@@ -72,6 +73,7 @@ user_pref("image.cache.size", 10485760);
 user_pref("image.mem.decode_bytes_at_a_time", 65536);
 user_pref("image.decode-immediately.enabled", true);
 user_pref("image.jxl.enabled", true);
+user_pref("image.webp.scaled-decoding.enabled", true);
 
 /** NETWORK ***/
 user_pref("network.buffer.cache.size", 262144);
@@ -200,10 +202,17 @@ user_pref("browser.urlbar.suggest.topsites", false);
 user_pref("browser.urlbar.oneOffSearches", false);
 user_pref("browser.urlbar.weather.featureGate", false);
 user_pref("browser.urlbar.wikipedia.featureGate", false);
+user_pref("browser.urlbar.resultExplanations.featureGate", true);
 user_pref("browser.formfill.enable", true);
 user_pref("security.insecure_connection_text.enabled", true);
 user_pref("security.insecure_connection_text.pbmode.enabled", true);
 user_pref("network.IDN_show_punycode", true);
+user_pref("browser.smartwindow.enabled", false);
+user_pref("browser.smartwindow.agent.enabled", false);
+user_pref("browser.smartwindow.autoTabGrouping.enabled", false);
+user_pref("browser.smartwindow.agent.toolbar.enabled", false);
+user_pref("browser.urlbar.resultMenu.keyboardAccessible", false);
+
 
 /** HTTPS-FIRST POLICY ***/
 user_pref("dom.security.https_first", true);
@@ -330,7 +339,7 @@ user_pref("browser.display.focus_ring_style", 0);
 user_pref("browser.display.focus_ring_width", 0);
 user_pref("layout.css.prefers-color-scheme.content-override", 2);
 user_pref("browser.privateWindowSeparation.enabled", false); // WINDOWS
-user_pref("ui.prefersReducedMotion", 1);
+user_pref("ui.prefersReducedMotion", 0);
 user_pref("ui.tooltip.delay_ms", 750);
 
 /** MaterialFox CUSTOM OPTIONS -- Uncomment this section, run firefox, then comment it back out so it doesn't keep these defaults on each launch
