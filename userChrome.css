@@ -35,7 +35,7 @@
    and Nova are both active. Same guard as the menus and selected tab. */
 @media -moz-pref("browser.nova.enabled") {
 	@media not ((prefers-contrast) or (-moz-native-theme)) {
-		:root[theme-in-app] {
+		:root:is([theme-in-app], :not([lwtheme])) {
 			--chrome-content-separator-color: color-mix(in srgb, var(--panel-banner-item-active-bgcolor), transparent 76%) !important;
 		}
 	}
@@ -344,35 +344,35 @@
 
 /* Status panel (bottom-left link/loading label), styled like the menus */
 #statuspanel-label {
-	--_menu-base: var(--toolbox-bgcolor, Canvas);
-	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
-
-	border: 1px solid transparent !important;
+	border: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
 	border-left: none !important;
 	border-bottom: none !important;
 	border-radius: 0px 6px 0px 0px !important;
 	padding: 2px !important;
 	padding-inline: 6px !important;
+	/* old themes: same as the fallback menus */
+	background: var(--lwt-accent-color, Menu) !important;
+}
 
+:root:is([theme-in-app], :not([lwtheme])) #statuspanel-label {
+	--_menu-base: var(--toolbox-bgcolor, Canvas);
+	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+
+	border-color: transparent !important;
 	background:
-	/* fill: same as the menus */
 	linear-gradient(
 	  145deg,
 	  color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
 	  color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
 	) padding-box,
-	/* opaque base */
 	linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
-	/* ring: selected-tab gradient, blended toward the base */
 	linear-gradient(
 	  96deg,
 	  color-mix(in srgb, var(--tab-border-color-selected-leading) 50%, var(--_menu-base)) 20.68%,
 	  color-mix(in srgb, var(--tab-border-color-selected-trailing) 50%, var(--_menu-base)) 79.34%
 	) border-box !important;
 }
-
-
 
 
 menuseparator {
@@ -628,10 +628,30 @@ menuitem[disabled] {
 	/* Mapped to native theme variables */
 	color: var(--lwt-text-color, var(--arrowpanel-color)) !important;
 	/* background: var(--toolbar-background-color, var(--lwt-accent-color, -moz-dialog)) !important; */
-	background: Menu !important;
-	border: 1px solid var(--chrome-content-separator-color, var(--panel-border-color)) !important;
+	background: var(--lwt-accent-color, Menu) !important;
+	border: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
 	box-shadow: var(--soft-menu-shadow) !important;
  }
+ 
+ :root:is([theme-in-app], :not([lwtheme])) .browserContainer > findbar {
+	--_menu-base: var(--toolbox-bgcolor, Canvas);
+	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
+	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+
+	border-color: transparent !important;
+	background:
+	linear-gradient(
+	  145deg,
+	  color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+	  color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+	) padding-box,
+	linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+	linear-gradient(
+	  96deg,
+	  color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
+	  color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
+	) border-box !important;
+}
 
 /* Hide unused findbar checkboxes */
 checkbox[anonid='find-case-sensitive'],
@@ -788,9 +808,9 @@ findbar checkbox:hover {
 /* Checkbox Checked State (Forced Visibility) */
 findbar checkbox[checked="true"],
 findbar checkbox[checked] {
-    /* Mixes the theme's text color with 20% opacity for a guaranteed visible shade */
-    background-color: color-mix(in srgb, currentColor 20%, transparent) !important;
-    color: inherit !important;
+	/* Mixes the theme's text color with 20% opacity for a guaranteed visible shade */
+	background-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+	color: inherit !important;
 }
 
 findbar checkbox .checkbox-check {
@@ -822,9 +842,9 @@ padding-right: 5px !important;
 
 /* Hide checkboxes on extra small window sizes */
 @media only screen and (max-width: 550px) { 
-    .findbar-container checkbox {
-	display: none !important;
-  }
+	.findbar-container checkbox {
+		display: none !important;
+	}
 }
 
 /* ==========================================================================
@@ -979,10 +999,10 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
     transparent
   ) !important;
 
-  /* 2. Leading edge: Full-vibrancy theme focus color */
-  border-top-color: rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) !important;
+	/* 2. Leading edge: Full-vibrancy theme focus color */
+	border-top-color: rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) !important;
 
-  animation: uc-spin 0.7s linear infinite !important;
+	animation: uc-spin 0.7s linear infinite !important;
 }
 
 @keyframes uc-spin {
@@ -991,28 +1011,28 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* 1. Force icon to stay in layout during load so CSS transitions can track starting values */
 .tabbrowser-tab[busy] .tab-icon-image {
-  display: flex !important; /* Overrides Firefox's native display:none on busy icons */
-  opacity: 0 !important;
-  transform: scale(0.5) !important;
-  transition: none !important;
+	display: flex !important; /* Overrides Firefox's native display:none on busy icons */
+	opacity: 0 !important;
+	transform: scale(0.5) !important;
+	transition: none !important;
 }
 
 /* 2. Pop-in transition when page finishes loading ([busy] attribute is removed) */
 .tabbrowser-tab:not([busy]) .tab-icon-image {
-  opacity: 1 !important;
-  transform: scale(1.0) !important;
-  transition: transform 0.45s cubic-bezier(0.34, 1.50, 0.64, 1), opacity 0.45s ease !important;
+	opacity: 1 !important;
+	transform: scale(1.0) !important;
+	transition: transform 0.45s cubic-bezier(0.34, 1.50, 0.64, 1), opacity 0.45s ease !important;
 }
 
 /* 3. Freeze transitions while moving tabs so dragging never triggers a pop */
 #tabbrowser-tabs[movingtab] .tab-icon-image,
 .tabbrowser-tab[movingtab] .tab-icon-image {
-  transition: none !important;
+	transition: none !important;
 }
 
 /* Hide the native static hourglass icon when reduced motion is enabled */
 .tab-throbber[busy] {
-  background-image: none !important;
+	background-image: none !important;
 }
 
 /* Change font of the urlbar
@@ -1036,14 +1056,14 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 @media -moz-pref("browser.urlbar.trustPanel.featureGate") {
   #identity-box {
-    &[pageproxystate="valid"]:not(.chromeUI, .extensionPage) {
-      display: none !important;
+	&[pageproxystate="valid"]:not(.chromeUI, .extensionPage) {
+		display: none !important;
     }
   }
 }
 
 .urlbar-input, #urlbar-scheme, .searchbar-textbox {
-  margin-inline-start: -2px !important;
+	margin-inline-start: -2px !important;
 }
 
 
@@ -1063,41 +1083,42 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 #context-back .menu-iconic-icon,
 .subviewbutton-back .toolbarbutton-icon,
 .identity-popup-expander .toolbarbutton-icon {
-  list-style-image: url("Back.svg") !important;
+	list-style-image: url("Back.svg") !important;
 }
 
 /* --- FORWARD BUTTONS --- */
 #forward-button .toolbarbutton-icon,
 #context-forward .menu-iconic-icon {
-  list-style-image: url("Forward.svg") !important;
+	list-style-image: url("Forward.svg") !important;
 }
 
 /* --- BACK/FORWARD HISTORY DROPDOWN ITEMS (LTR / RTL) --- */
 .unified-nav-back:dir(ltr) .menu-iconic-icon,
 .unified-nav-forward:dir(rtl) .menu-iconic-icon {
-  list-style-image: url("Back.svg") !important;
+	list-style-image: url("Back.svg") !important;
 }
 
 .unified-nav-forward:dir(ltr) .menu-iconic-icon,
 .unified-nav-back:dir(rtl) .menu-iconic-icon {
-  list-style-image: url("Forward.svg") !important;
+	list-style-image: url("Forward.svg") !important;
 }
 
 /* Bookmark and History scrollbar colors in the Arrowpanel menu */
 .panel-subview-body {
-    scrollbar-color: var(--chrome-content-separator-color) var(--lwt-accent-color) !important;
+	scrollbar-color: var(--chrome-content-separator-color) var(--lwt-accent-color) !important;
 }
 .panel-subview-body:hover {
-    scrollbar-color: var(--chrome-content-separator-color) var(--lwt-accent-color) !important;
+	scrollbar-color: var(--chrome-content-separator-color) var(--lwt-accent-color) !important;
 }
 .panel-subview-body:active {
-    scrollbar-color: var(--button-background-color-ghost-active) var(--lwt-accent-color) !important;
+	scrollbar-color: var(--button-background-color-ghost-active) var(--lwt-accent-color) !important;
 }
 
 #editBookmarkPanel html|input:where(:not([type="radio" i], [type="checkbox" i], [type="range" i])),
 #editBookmarkPanel html|textarea {
-  background-color: var(--toolbar-field-background-color) !important;   /* replace with your urlbar color */
+	background-color: var(--toolbar-field-background-color) !important;   /* replace with your urlbar color */
 }
+
 /* Updated for Firefox 157 Popover API & Nova Refactor */
 @media -moz-pref("browser.nova.enabled") {
 	
@@ -1109,30 +1130,32 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		box-shadow: none !important;
 	}
 
-/* Menus and panels: gradient ring (same as the selected tab) + lavender hover.
-   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
-   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
-@media not ((prefers-contrast) or (-moz-native-theme)) {
-  :root[theme-in-app] menupopup, :root[theme-in-app] panel {
-    --_menu-base: var(--toolbox-bgcolor, Canvas);
-    --_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-    --_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+	/* Menus and panels: gradient ring (same as the selected tab) + lavender hover.
+	   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
+	   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
+	@media not ((prefers-contrast) or (-moz-native-theme)) {
+	  :root:is([theme-in-app], :not([lwtheme])) menupopup, :root:is([theme-in-app], :not([lwtheme])) panel {
+		--_menu-base: var(--toolbox-bgcolor, var(--lwt-accent-color, Menu));
+		--_menu-lead: var(--toolbox-background-color-gradient-leading,
+			var(--tab-border-color-selected-leading, var(--_menu-base)));
+		--_menu-trail: var(--toolbox-background-color-gradient-trailing,
+			var(--tab-border-color-selected-trailing, var(--_menu-base)));
 
-    --panel-border-color: transparent !important;
-    --panel-background-color:
-      linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
-        color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
-      ) padding-box,
-      linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
-      linear-gradient(
-        96deg,
-        color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
-        color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
-      ) border-box !important;
-  }
-}
+		--panel-border-color: transparent !important;
+		--panel-background-color:
+		  linear-gradient(
+			145deg,
+			color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+			color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+		  ) padding-box,
+		  linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+		  linear-gradient(
+			96deg,
+			color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
+			color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
+		  ) border-box !important;
+	  }
+	}
 
 	/* Ensure active hover strictly ignores any disabled state */
 	menu:not([disabled]):not([disabled="true"]), 
@@ -1170,7 +1193,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	}
 	
 	@media not ((prefers-contrast) or (-moz-native-theme)) {
-	  :root[theme-in-app] .tabbrowser-tab:is([selected]:not([multiselected])) > .tab-stack > .tab-background {
+	  :root:is([theme-in-app], :not([lwtheme])) .tabbrowser-tab:is([selected]:not([multiselected])) > .tab-stack > .tab-background {
 		--tab-border-color-accent: linear-gradient(
 		  96deg,
 		  color-mix(in srgb, var(--tab-border-color-selected-leading) 62%, transparent) 20.68%,
@@ -1247,7 +1270,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  /* Dynamic expansion via new growth variables + max-height */
 	  #urlbar {
 		--urlbar-input-growth-open-inline: 8px !important;
-	  }
+	}
   
 	  :root[uidensity="compact"] {
 		--urlbar-joint-background-shadow-margin: 100px !important;
@@ -1286,7 +1309,6 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  
 	.urlbar {
 		/* Mix with the surface background so the line stays fully opaque */
-
 		--urlbar-background-border-focused: 1px solid var(--toolbar-field-border-color-focus) !important;
 		--urlbar-background-outline-focused: 1px solid var(--toolbar-field-border-color-focus) !important;
 	}
@@ -1388,11 +1410,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 	/* Re-mapped root variables utilizing native Firefox System Colors */
 	:root { 
-      --default-focusring-width: 0px !important;
-      --default-focusring: var(--default-focusring-width) solid !important;
-      --focus-outline-width: 0px !important;
-      --focus-outline-color: AccentColor !important; 
-      --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color) !important; 
+		--default-focusring-width: 0px !important;
+		--default-focusring: var(--default-focusring-width) solid !important;
+		--focus-outline-width: 0px !important;
+		--focus-outline-color: AccentColor !important; 
+		--focus-outline: var(--focus-outline-width) solid var(--focus-outline-color) !important; 
     }
 	
 	#downloadsListBox:focus > richlistitem[selected] {
@@ -1413,41 +1435,41 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	
 	/* Clear Downloads Button */
 	#clearDownloadsButton[disabled] {
-      color: color-mix(in srgb, currentColor 60%, transparent) !important;
-      opacity: 1 !important;
+		color: color-mix(in srgb, currentColor 60%, transparent) !important;
+		opacity: 1 !important;
     } 
  
 	#clearDownloadsButton {
-      list-style-image: url("chrome://global/skin/icons/delete.svg") !important;
-      color: currentColor !important;
-      padding-left: 5px !important;
-      padding-right: 7px !important;
-      padding-top: 8px !important;
-      padding-bottom: 8px !important;
+		list-style-image: url("chrome://global/skin/icons/delete.svg") !important;
+		color: currentColor !important;
+		padding-left: 5px !important;
+		padding-right: 7px !important;
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
     }
  
 	#clearDownloadsButton > .toolbarbutton-icon {
-      display: inline-flex !important;
-      display: -moz-inline-box !important;
-      margin-inline-end: 4px !important;
+		display: inline-flex !important;
+		display: -moz-inline-box !important;
+		margin-inline-end: 4px !important;
     }
 	
 	richlistbox {
-	  border: none !important;
+		border: none !important;
 	}
 	
 	/* Strip native window frame (pointer-events left untouched) */
 	menupopup, panel {
-	  -moz-appearance: none !important;
-	  background: transparent !important;
-	  border: none !important;
-	  box-shadow: none !important;
+		-moz-appearance: none !important;
+		background: transparent !important;
+		border: none !important;
+		box-shadow: none !important;
 	}
 
 	/* More consistent context menus with the current theme */
-	menupopup,panel {
-	  --panel-background-color: Menu !important;
-	  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
+	:root:root:root menupopup, :root:root:root panel {
+		--panel-background-color: Menu !important;
+		--panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
 	}
 
 	menu, menuitem {
