@@ -705,7 +705,6 @@ description.findbar-label:empty {
     padding-inline: 8px !important; 
     box-shadow: 0 0 0 1px var(--chrome-content-separator-color) !important;
 	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important;
-    transition-delay: 10ms !important;
 }
 
 .findbar-textbox:focus,
@@ -1239,6 +1238,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	/* URL bar focused/selected state (before dropdown opens) */
 	#urlbar[focused]:not([popover-open]) .urlbar-background {
 	  background-color: var(--urlbar-background-color) !important;
+	  outline-offset: -1px !important;
 	}	
 	
 	  /* Kill the native separator line */
@@ -1272,7 +1272,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 	  /* Dynamic expansion via new growth variables + max-height */
 	  #urlbar {
-		--urlbar-input-growth-open-inline: 8px !important;
+		--urlbar-input-growth-open-inline: 10px !important;
 	}
   
 	  :root[uidensity="compact"] {
@@ -1312,9 +1312,10 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  
 	.urlbar {
 		/* Mix with the surface background so the line stays fully opaque */
-		--urlbar-background-border-focused: 1px solid var(--toolbar-field-border-color-focus) !important;
-		--urlbar-background-outline-focused: 1px solid var(--toolbar-field-border-color-focus) !important;
+		--urlbar-background-border-focused: 0px !important;
+		--urlbar-background-outline-focused: 2px solid var(--toolbar-field-border-color-focus) !important;
 	}
+	
 
 	/* Dropdown rows & buttons */
 	.urlbarView-row {
@@ -1325,9 +1326,8 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	}
 
 	.urlbarView-row-body {
-		margin-inline-start: -6px !important;
+		margin-inline-start: -5px !important;
 	}
-
 
 	  .urlbarView-row-inner {
 		padding-block: 0.36rem !important;
