@@ -356,8 +356,8 @@
 
 :root:is([theme-in-app], :not([lwtheme])) #statuspanel-label {
 	--_menu-base: var(--toolbox-bgcolor, Canvas);
-	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+	--_menu-lead: var(--toolbox-background-gradient-leading, var(--tab-border-color-selected-leading));
+	--_menu-trail: var(--toolbox-background-gradient-trailing, var(--tab-border-color-selected-trailing));
 
 	border-color: transparent !important;
 	background:
@@ -516,7 +516,7 @@ menuitem[disabled] {
 /* 2. Main URL bar hover state */
 #urlbar:not([focused]):hover .urlbar-background, 
 #searchbar:hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-30) 20%, transparent) !important;
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 20%, transparent) !important;
 	@media not -moz-pref("browser.nova.enabled") {
 		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
 	}
@@ -612,11 +612,12 @@ menuitem[disabled] {
 }
 
 .browserContainer > findbar {
-	position: fixed !important;
+	grid-area: browserstack !important;   /* use the content area as its containing block */
+	position: absolute !important;
 	contain: content !important;
-	top: -1px !important;
+	top: 1px !important;
 	right: 18px !important;
-	margin: 4px 0px 0 5px !important;
+	margin: 2px 0px 0 5px !important;
 	transform-origin: top right;
 	border-radius: 8px !important;
 	padding-inline-start: 4px;
@@ -635,8 +636,8 @@ menuitem[disabled] {
  
  :root:is([theme-in-app], :not([lwtheme])) .browserContainer > findbar {
 	--_menu-base: var(--toolbox-bgcolor, Canvas);
-	--_menu-lead: var(--toolbox-background-color-gradient-leading, var(--tab-border-color-selected-leading));
-	--_menu-trail: var(--toolbox-background-color-gradient-trailing, var(--tab-border-color-selected-trailing));
+	--_menu-lead: var(--toolbox-background-gradient-leading, var(--tab-border-color-selected-leading));
+	--_menu-trail: var(--toolbox-background-gradient-trailing, var(--tab-border-color-selected-trailing));
 
 	border-color: transparent !important;
 	background:
@@ -663,6 +664,7 @@ checkbox[anonid='highlight'] {
 
 /* Findbar Container & Flex Order */
 .findbar-container {
+	overflow: visible !important;
 	display: flex;
 	align-items: center !important;
 	gap: 1px !important;
@@ -698,11 +700,11 @@ description.findbar-label:empty {
 	border: 2px solid transparent !important;
     border-radius: 8px !important;
     outline: none !important;
-	margin-inline-start: 2px !important;
+	margin-inline-start: 0px !important;
     margin-inline-end: 8px !important;
     padding-inline: 8px !important; 
-    box-shadow: none !important;
-	transition: background-color 206ms cubic-bezier(0, 0, .2, 1) !important; 
+    box-shadow: 0 0 0 1px var(--chrome-content-separator-color) !important;
+	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important;
     transition-delay: 10ms !important;
 }
 
@@ -717,7 +719,10 @@ findbar:focus-within .findbar-textbox {
 
 /* Instant Textbox Hover */
 .findbar-textbox:not(:focus):hover {
-	background-color: color-mix(in srgb, var(--toolbar-background-color), white 6%) !important;
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 20%, transparent) !important;
+	@media not -moz-pref("browser.nova.enabled") {
+		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
+	}
 }
 
 /* Mapped "notfound" background */
@@ -824,7 +829,7 @@ findbar checkbox .checkbox-check {
 
 /* Matches text alignment */
 .found-matches {
-padding-right: 5px !important;
+	padding-right: 5px !important;
     white-space: nowrap;
 }
 
@@ -1136,17 +1141,15 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	@media not ((prefers-contrast) or (-moz-native-theme)) {
 	  :root:is([theme-in-app], :not([lwtheme])) menupopup, :root:is([theme-in-app], :not([lwtheme])) panel {
 		--_menu-base: var(--toolbox-bgcolor, var(--lwt-accent-color, Menu));
-		--_menu-lead: var(--toolbox-background-color-gradient-leading,
-			var(--tab-border-color-selected-leading, var(--_menu-base)));
-		--_menu-trail: var(--toolbox-background-color-gradient-trailing,
-			var(--tab-border-color-selected-trailing, var(--_menu-base)));
-
+		--_menu-lead: color-mix(in srgb, var(--toolbox-background-gradient-leading, var(--tab-border-color-selected-leading,
+		var(--_menu-base))) 56%, black);
+		--_menu-trail: color-mix(in srgb, var(--toolbox-background-gradient-trailing, var(--tab-border-color-selected-trailing, var(--_menu-base))) 66%, black);
 		--panel-border-color: transparent !important;
 		--panel-background-color:
 		  linear-gradient(
 			145deg,
 			color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
-			color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 62%, var(--_menu-trail)) 32%, transparent) 100%
+			color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 46%, var(--_menu-trail)) 54%, transparent) 100%
 		  ) padding-box,
 		  linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
 		  linear-gradient(
@@ -1263,7 +1266,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	.urlbar, #searchbar {
 		--urlbar-background-border: var(--urlbar-input-container-border-width) solid var(--chrome-content-separator-color) !important;
 	}
-	.urlbar-go-button {
+	#urlbar[popover-open] .urlbar-go-button {
 	  margin-inline-end: -6px !important;
 	}
 

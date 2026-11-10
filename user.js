@@ -317,6 +317,7 @@ user_pref("browser.tabs.dropToPin.enabled", false);
 user_pref("browser.tabs.dragDrop.pinInteractionCue.delayMS", 50000);
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.aboutwelcome.enabled", false);
+user_pref("browser.mini-window.enabled", false);
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("browser.urlbar.trimHttps", true);
 user_pref("browser.urlbar.trimURLs", true);
