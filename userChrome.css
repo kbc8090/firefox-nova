@@ -1076,10 +1076,24 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 
 
-/* Keep inactive tabs completely clean until hovered */
+/* 1. Hide the close button on unselected, non-hovered tabs by default */
 .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button {
     display: none !important;
-} 
+}
+
+/* 2. Force the close button to show on ANY tab currently hovered */
+.tabbrowser-tab:hover .tab-close-button {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 3. Force the close button to show on the selected tab even if not hovered */
+.tabbrowser-tab[selected] .tab-close-button {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 
 /* Keep all tabs clean until hovered
 .tabbrowser-tab:not(:hover) .tab-close-button {
@@ -1447,6 +1461,12 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 #editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
     border-color: var(--chrome-content-separator-color) !important;
+	background-color: var(--urlbar-background-color) !important;
+}
+
+#editBMPanel_folderTree, #editBMPanel_tagsSelector {
+  border: 1px solid var(--chrome-content-separator-color) !important;
+  background-color: var(--toolbar-background-color) !important;
 }
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
