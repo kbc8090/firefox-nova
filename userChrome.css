@@ -398,6 +398,10 @@ menupopup > menu::after {
 	margin-block: 4px !important; /* Adjust this to control vertical spacing above/below the line */
 }
 
+#BMB_bookmarksPopup menuseparator {
+	margin-inline: 4px !important;
+}
+
 #mainPopupSet menuitem,
 #mainPopupSet menu,
 menupopup menuitem,
@@ -1372,11 +1376,19 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
   --urlbar-container-padding-block: 3px !important; /* Adjust between 0px and 3px to set vertical height */
 }
 
-.panel-header {
-  & > h1 {
-    font-size: 1.2em !important;
+.panel-header > h1 {
+    font-size: 1.24em !important;
     text-shadow: 1px 1px 2px black !important;
-  }
+}
+
+.panel-header {
+		background: linear-gradient(to bottom,
+		color-mix(in srgb, var(--tab-border-color-selected-leading, currentColor) 20%, transparent),
+		transparent) !important;
+}
+
+#trustpanel-popup .panel-header > h1 {
+	padding-block: 4px !important;
 }
 
 /* Hide "Firefox is on guard / you're protected" text and the shield graphic. */
@@ -1406,6 +1418,33 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
     margin-inline-start: auto !important;
 }
 
+/* Add some text when there are no trackers blocked */
+
+#trustpanel-popup[tracking-protection="enabled"]:has(#trustpanel-blocker-section[hidden]) #trustpanel-graphic-section::before {
+	content: "No trackers blocked on this site";
+	display: block;
+	text-align: center;
+	font-weight: 600 !important;
+	opacity: 0.85;
+}
+
+#editBookmarkPanel > #editBookmarkHeaderSeparator {
+	margin-inline: 0px !important;
+}
+
+#editBookmarkPanel :is(#editBMPanel_namePicker, #editBMPanel_locationField) {
+	border: 1px solid var(--chrome-content-separator-color) !important;
+	background-color: var(--urlbar-background-color) !important;
+}
+
+#editBookmarkPanel #editBMPanel_folderMenuList {
+	border: 1px solid var(--chrome-content-separator-color) !important;
+	background-color: var(--urlbar-background-color) !important;
+}
+
+#editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
+    border-color: var(--chrome-content-separator-color) !important;
+}
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
 
