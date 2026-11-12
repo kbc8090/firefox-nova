@@ -1243,7 +1243,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 	@media (prefers-reduced-motion: no-preference) {
 		.urlbarView:popover-open {
-			animation: urlbar-reveal 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+			animation: urlbar-reveal 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 		}
 	}
 
@@ -1389,6 +1389,30 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  #trustpanel-popup panelmultiview {
 		margin-block: -2px !important;
 	}
+	
+/* Constrain the inner results container with manual height */
+.urlbarView-body,
+.urlbarView-results {
+    max-height: 288px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    
+    /* Completely hide scrollbars across engines while keeping scrolling functional */
+    scrollbar-width: none !important; 
+}
+
+/* For WebKit/Blink fallback if relevant */
+.urlbarView-body::-webkit-scrollbar,
+.urlbarView-results::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Ensure the outer wrapper allows the drop-shadow to paint cleanly */
+.urlbarView,
+.urlbarView-background {
+    overflow: visible !important;
+    max-height: none !important;
+}
 }
 
 /* Fix for v157 #urlbar-container height (padding-block refactor) */
