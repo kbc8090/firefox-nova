@@ -65,7 +65,7 @@
 		--border-radius-medium: 8px !important; /* Nova Default: 12px, Proton Default: 8px */
 		--border-radius-large: 16px !important; /* Proton Default: 16px, [Undefined in Nova] */
 		--border-radius-xlarge: 24px !important; /* Nova Default: 24px, [Undefined in Proton] */
-		--urlbarView-padding: calc(var(--space-medium) - var(--urlbarView-row-gutter)) !important;
+		--urlbarview-padding: calc(var(--space-medium) - var(--urlbarView-row-gutter)) !important;
 		
 	}
 	/*
@@ -406,13 +406,7 @@ menupopup > menu::after {
 	margin-block: 4px !important; /* Adjust this to control vertical spacing above/below the line */
 }
 
-#BMB_bookmarksPopup menuseparator {
-	margin-inline: 4px !important;
-}
 
-#PlacesToolbarItems menupopup > menuseparator {
-	margin-inline: 4px !important;
-}
 
 menupopup[placespopup="true"] > menuseparator {
 	margin-inline: 4px !important;
@@ -852,18 +846,6 @@ findbar checkbox .checkbox-check {
     white-space: nowrap;
 }
 
-/* RTL Support */
-[dir="rtl"] findbar {
-    left: 0 !important;
-    right: unset !important;
-}
-
-[dir="rtl"] .findbar-textbox {
-    border-left: 1px solid var(--chrome-content-separator-color) !important;
-    border-right: none !important;
-    border-radius: 0 !important;
-}
-
 /* Hide checkboxes on extra small window sizes */
 @media only screen and (max-width: 550px) { 
 	.findbar-container checkbox {
@@ -1098,14 +1080,14 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 }
 
 /* 2. Force the close button to show on ANY tab currently hovered */
-.tabbrowser-tab:hover .tab-close-button {
+.tabbrowser-tab:hover:not([pinned]) .tab-close-button {
     display: flex !important;
     opacity: 1 !important;
     visibility: visible !important;
 }
 
 /* 3. Force the close button to show on the selected tab even if not hovered */
-.tabbrowser-tab[selected] .tab-close-button {
+.tabbrowser-tab[selected]:not([pinned]) .tab-close-button {
     display: flex !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -1480,19 +1462,14 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 #editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
     border-color: var(--chrome-content-separator-color) !important;
 	background-color: var(--urlbar-background-color) !important;
+	&:hover {
+		background-color: var(--button-background-color-hover) !important;
+	}
+	&:active {
+		background-color: var(--button-background-color-active) !important;
+	}
 }
 
-#editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
-  &:hover {
-    background-color: var(--button-background-color-hover) !important;
-  }
-}
-
-#editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
-  &:active {
-    background-color: var(--button-background-color-active) !important;
-  }
-}
 
 #editBMPanel_folderTree, #editBMPanel_tagsSelector {
   border: 1px solid var(--chrome-content-separator-color) !important;
@@ -1569,7 +1546,6 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
     }
  
 	#clearDownloadsButton > .toolbarbutton-icon {
-		display: inline-flex !important;
 		display: -moz-inline-box !important;
 		margin-inline-end: 4px !important;
     }
