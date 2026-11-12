@@ -31,6 +31,14 @@
     --default-focusring: var(--default-focusring-width) solid !important;
 }
 
+@media -moz-pref("browser.nova.enabled") {
+	@media not (prefers-contrast) {
+		:root[lwtheme]:not([theme-in-app]) {
+			--focus-outline-color: light-dark(#0061e0, #00ddff) !important;
+		}
+	}
+}
+
 /* Nova's own accent-based separator, only when Firefox's built-in theme
    and Nova are both active. Same guard as the menus and selected tab. */
 @media -moz-pref("browser.nova.enabled") {
@@ -402,6 +410,14 @@ menupopup > menu::after {
 	margin-inline: 4px !important;
 }
 
+#PlacesToolbarItems menupopup > menuseparator {
+	margin-inline: 4px !important;
+}
+
+menupopup[placespopup="true"] > menuseparator {
+	margin-inline: 4px !important;
+}
+
 #mainPopupSet menuitem,
 #mainPopupSet menu,
 menupopup menuitem,
@@ -520,7 +536,7 @@ menuitem[disabled] {
 /* 2. Main URL bar hover state */
 #urlbar:not([focused]):hover .urlbar-background, 
 #searchbar:hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 20%, transparent) !important;
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, transparent) !important;
 	@media not -moz-pref("browser.nova.enabled") {
 		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
 	}
@@ -708,7 +724,7 @@ description.findbar-label:empty {
     margin-inline-end: 8px !important;
     padding-inline: 8px !important; 
     box-shadow: 0 0 0 1px var(--chrome-content-separator-color) !important;
-	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important;
+	
 }
 
 .findbar-textbox:focus,
@@ -722,7 +738,7 @@ findbar:focus-within .findbar-textbox {
 
 /* Instant Textbox Hover */
 .findbar-textbox:not(:focus):hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 20%, transparent) !important;
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, transparent) !important;
 	@media not -moz-pref("browser.nova.enabled") {
 		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
 	}
@@ -1136,10 +1152,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	scrollbar-color: var(--button-background-color-ghost-active) var(--lwt-accent-color) !important;
 }
 
-#editBookmarkPanel html|input:where(:not([type="radio" i], [type="checkbox" i], [type="range" i])),
-#editBookmarkPanel html|textarea {
-	background-color: var(--toolbar-field-background-color) !important;   /* replace with your urlbar color */
-}
+
 
 /* Updated for Firefox 157 Popover API & Nova Refactor */
 @media -moz-pref("browser.nova.enabled") {
@@ -1450,8 +1463,13 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 }
 
 #editBookmarkPanel :is(#editBMPanel_namePicker, #editBMPanel_locationField) {
-	border: 1px solid var(--chrome-content-separator-color) !important;
-	background-color: var(--urlbar-background-color) !important;
+    border: 1px solid var(--chrome-content-separator-color) !important;
+    background-color: var(--urlbar-background-color) !important;
+    transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important;
+}
+
+#editBookmarkPanel :is(#editBMPanel_namePicker, #editBMPanel_locationField):not(:focus):hover {
+	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, var(--toolbar-field-background-color, transparent)) !important;
 }
 
 #editBookmarkPanel #editBMPanel_folderMenuList {
@@ -1464,9 +1482,46 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	background-color: var(--urlbar-background-color) !important;
 }
 
+#editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
+  &:hover {
+    background-color: var(--button-background-color-hover) !important;
+  }
+}
+
+#editBookmarkPanel .expander-up, #editBookmarkPanel .expander-down {
+  &:active {
+    background-color: var(--button-background-color-active) !important;
+  }
+}
+
 #editBMPanel_folderTree, #editBMPanel_tagsSelector {
   border: 1px solid var(--chrome-content-separator-color) !important;
-  background-color: var(--toolbar-background-color) !important;
+  background-color: var(--urlbar-background-color) !important;
+}
+
+#editBMPanel_folderTree treechildren::-moz-tree-row(selected),
+#editBMPanel_folderTree treechildren::-moz-tree-row(selected, focus) {
+	background-color: color-mix(in srgb, var(--toolbar-field-border-color-focus, #7b6cf0) 80%, transparent) !important;
+}
+
+#editBMPanel_folderTree treechildren::-moz-tree-cell-text(selected),
+#editBMPanel_folderTree treechildren::-moz-tree-cell-text(selected, focus) {
+	color: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 6%, black) !important;
+}
+
+#editBMPanel_folderTree treechildren::-moz-tree-image(container, selected),
+#editBMPanel_folderTree treechildren::-moz-tree-image(container, selected, focus),
+#editBMPanel_folderTree treechildren::-moz-tree-image(title, container, selected),
+#editBMPanel_folderTree treechildren::-moz-tree-image(title, container, selected, focus) {
+	fill: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 6%, black) !important;
+	fill-opacity: 1 !important;        /* Firefox sets 0.7 by default */
+}
+
+@media -moz-pref("browser.nova.enabled") {
+  #sidebar-box {
+    background-color: var(--toolbar-background-color) !important;
+    border: none !important;
+  }
 }
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
