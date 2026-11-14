@@ -126,7 +126,7 @@
 }
 
 :is(*|input, *|textarea):not(:-moz-window-inactive)::selection {
-  background-color: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 74%, var(--color-violet-desaturated-10)) !important;
+  background-color: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 78%, var(--color-violet-desaturated-10)) !important;
   color: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 6%, black) !important;
 }
 
@@ -211,7 +211,7 @@
 
 #tabbrowser-tabs {
   &[orient="horizontal"] {
-    --tab-max-width: 207px !important;
+    --tab-max-width: 209px !important;
   }
 }
 
@@ -1132,7 +1132,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	scrollbar-color: var(--chrome-content-separator-color) var(--lwt-accent-color) !important;
 }
 .panel-subview-body:active {
-	scrollbar-color: var(--button-background-color-ghost-active) var(--lwt-accent-color) !important;
+	scrollbar-color: var(--button-background-color-menu-active) var(--lwt-accent-color) !important;
 }
 
 
@@ -1244,7 +1244,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 	@media (prefers-reduced-motion: no-preference) {
 		.urlbarView:popover-open {
-			animation: urlbar-reveal 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+			animation: urlbar-reveal 240ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 		}
 	}
 
@@ -1539,7 +1539,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* Close: effectively instant */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([pinned]):not([fadein]) {
-	transition: min-width 75ms ease-out, max-width 75ms ease-out !important;
+	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
 }
 
 /* Strip catch-up after closing */
