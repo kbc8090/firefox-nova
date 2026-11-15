@@ -1428,7 +1428,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* Fix for v157 #urlbar-container height (padding-block refactor) */
 #urlbar-container {
-  --urlbar-container-padding-block: 3px !important; /* Adjust between 0px and 3px to set vertical height */
+	--urlbar-container-padding-block: 3px !important; /* Adjust between 0px and 3px to set vertical height */
 }
 
 .panel-header {
@@ -1483,7 +1483,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 }
 
 #trustpanel-graphic-section {
-  border-radius: var(--border-radius-medium) !important;
+	border-radius: var(--border-radius-medium) !important;
 }
 
 #editBookmarkPanel > #editBookmarkHeaderSeparator {
@@ -1518,8 +1518,8 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 
 #editBMPanel_folderTree, #editBMPanel_tagsSelector {
-  border: 1px solid var(--chrome-content-separator-color) !important;
-  background-color: var(--urlbar-background-color) !important;
+	border: 1px solid var(--chrome-content-separator-color) !important;
+	background-color: var(--urlbar-background-color) !important;
 }
 
 #editBMPanel_folderTree treechildren::-moz-tree-row(selected),
@@ -1549,6 +1549,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* Close: effectively instant */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([pinned]):not([fadein]) {
+	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
+}
+
+/* Open: speed of new tabs (not during drags) */
+#tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein] {
 	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
 }
 
