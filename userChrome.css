@@ -883,6 +883,9 @@ findbar checkbox .checkbox-check {
 	overflow: visible !important;
 }
 
+
+
+
 /* 1. Base / Inactive State: Smooth 700ms fade back in */
 .tabbrowser-tab::after {
 	content: "" !important;
@@ -895,7 +898,14 @@ findbar checkbox .checkbox-check {
 	background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
 	z-index: 1 !important; /* Keep above tab background */
 	opacity: 1 !important;
-	transition: opacity 60ms cubic-bezier(0.55, 0.55, 0, 1) !important;
+	transition: opacity 35ms cubic-bezier(0.55, 0.55, 0, 1) !important;
+}
+
+/* 2. Keep the previous tab's separator hidden while the next tab is closing */
+.tabbrowser-tab:is([selected], [multiselected], :hover)::after,
+.tabbrowser-tab:has(+ .tabbrowser-tab:is([selected], [multiselected], :hover, :not([fadein])))::after {
+	opacity: 0 !important;
+	transition: none !important;
 }
 
 /* 2. Active Interaction State: Instant snap-out (no transition) */
