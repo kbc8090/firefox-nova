@@ -200,7 +200,7 @@
 /* 1. Increased bottom margin to 4px to lift the tabs away from the nav-bar */
 .tab-background {
 	margin-bottom: 4px !important;
-    border-radius: 6px !important; 
+    border-radius: 8px !important; 
 }
 
 /* 3. Prevent layout padding/margin shifts on the tab bar when dragging */
@@ -229,7 +229,7 @@
 .tab-audio-button {
   --button-size-icon-small: 20px !important;
   --button-min-height-small: 20px !important;
-  --button-border-radius: var(--border-radius-small) !important;
+  --button-border-radius: 6px !important;
 }
 
 @media -moz-pref("browser.nova.enabled") {
@@ -264,7 +264,7 @@
     height: 20px !important;               /* Hard lock the container's height */
     margin-inline-start: 2px !important;   /* Tighten the gap next to the text */
     align-self: center !important;
-	border-radius: var(--border-radius-small) !important;
+	border-radius: 6px !important;
 }
 
 /* 2. Force the vertical alignment of the tab content */
@@ -1218,7 +1218,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  ) !important;
 	}
 	
-	@media not ((prefers-contrast) or (-moz-native-theme)) {
+	/*@media not ((prefers-contrast) or (-moz-native-theme)) {
 	  :root:is([theme-in-app], :not([lwtheme])) .tabbrowser-tab:is([selected]:not([multiselected])) > .tab-stack > .tab-background {
 		--tab-border-color-accent: linear-gradient(
 		  96deg,
@@ -1231,7 +1231,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		  color-mix(in srgb, color-mix(in srgb, var(--tab-border-color-selected-trailing) 64%, gray) 18%, transparent) 79.34%
 		) !important;
 	  }
-	}
+	}*/
 	
 	.urlbar-background {
 	  .urlbar[popover-open] > & {
@@ -1570,6 +1570,9 @@ toolbarbutton[part="scrollbutton-down"] {
     fill-opacity: 0.7 !important;
 }
 
+.titlebar-spacer[type="pre-tabs"] {
+	display: none !important;
+}
 
 /* --------------------------------------------- Downloads/History/Bookmarks Window ----------------------------------------------- */
 
