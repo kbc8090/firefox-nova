@@ -1524,7 +1524,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 #editBMPanel_folderTree treechildren::-moz-tree-row(selected),
 #editBMPanel_folderTree treechildren::-moz-tree-row(selected, focus) {
-	background-color: color-mix(in srgb, var(--toolbar-field-border-color-focus, #7b6cf0) 80%, transparent) !important;
+	background-color: color-mix(in srgb, var(--toolbar-field-border-color-focus, var(--focus-outline-color, AccentColor)) 78%, var(--color-violet-desaturated-10)) !important;
 }
 
 #editBMPanel_folderTree treechildren::-moz-tree-cell-text(selected),
@@ -1549,12 +1549,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* Close: effectively instant */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([pinned]):not([fadein]) {
-	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
+	transition: min-width 60ms ease-out, max-width 50ms ease-out !important;
 }
 
-/* Open: speed of new tabs (not during drags) */
-#tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein] {
-	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
+#tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein]:not([style*="transition: none"]) {
+	transition:	min-width 70ms ease-out, max-width 70ms ease-out !important;
 }
 
 /* Strip catch-up after closing */
