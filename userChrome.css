@@ -982,6 +982,25 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	background-size: 0 0;
 }
 
+/* ── Tab separators while dragging ───────────────────────────── */
+/* S = a tab Firefox has shifted out of the dragged tab's way (inline transform) */
+
+/* SHOW: tab right before the dragged tab, when the dragged tab moved right past tabs */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:has(+ [dragtarget] + .tabbrowser-tab:not([dragtarget])[style*="translateX("])::after,
+/* SHOW: shifted tab now sitting to the right of a dragged tab that moved left */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:not([dragtarget])[style*="translateX("]:has(+ [dragtarget])::after {
+	opacity: 1 !important;
+	transition: none !important;
+}
+
+/* HIDE: last shifted tab when dragging right (it's now next to the dragged tab) */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:not([dragtarget])[style*="translateX("]:not(:has(+ .tabbrowser-tab[style*="translateX("])):not(:has(+ [dragtarget]))::after,
+/* HIDE: unshifted tab just before the shifted ones when dragging left */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:not([style*="translateX("]):has(+ .tabbrowser-tab:not([dragtarget])[style*="translateX("])::after {
+	opacity: 0 !important;
+	transition: none !important;
+}
+
 /* Fixing Download Panel Menu Spacing */
 #downloadsPanel-blockedSubview, #downloadsPanel-mainView {
 	toolbarseparator {
@@ -1549,12 +1568,45 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 
 /* Close: effectively instant */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([pinned]):not([fadein]) {
-	transition: min-width 60ms ease-out, max-width 50ms ease-out !important;
+	transition: min-width 50ms ease-out, max-width 40ms ease-out !important;
 }
 
-#tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein]:not([style*="transition: none"]) {
-	transition:	min-width 70ms ease-out, max-width 70ms ease-out !important;
+/* 1. Open rule: don't touch tabs that are sliding into place after a drop */
+#tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein]:not([style*="transition: none"]):not([tabdrop-samewindow]) {
+	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
 }
+
+/* Tabs shifting out of the way during a drag, and the drop settle */
+
+.tabbrowser-tab[tabdrop-samewindow] {
+	transition: transform 200ms cubic-bezier(0.5, 1, 0.89, 1) !important;
+}
+
+#tabbrowser-tabs[movingtab] .tabbrowser-tab,
+.tabbrowser-tab[tabdrop-samewindow] {
+	will-change: transform;
+}
+
+/* Fix: dragging the last tab right no longer shifts it 1px left */
+#tabbrowser-arrowscrollbox-periphery {
+	margin-inline: 1px -1px !important; /* start 1px later, no net layout change */
+}
+#tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button {
+	translate: -1px 0 !important; /* pull the button back so it looks the same */
+}
+
+#tabbrowser-arrowscrollbox:not([overflowing]) > #tabbrowser-arrowscrollbox-periphery { margin-inline: 25px -25px !important; }
+#tabbrowser-arrowscrollbox:not([overflowing]) > #tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button { translate: -25px 0 !important; }
+
+
+/* Last tab can't be dragged right into the overshoot zone */
+#tabbrowser-arrowscrollbox:has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery {
+	margin-inline: 1px -1px !important;
+}
+#tabbrowser-arrowscrollbox:has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button {
+	translate: -1px 0 !important;
+}
+
 
 /* Strip catch-up after closing */
 .closing-tabs-spacer {
