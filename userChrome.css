@@ -313,7 +313,7 @@
 
 /* Make the badges on addons look better (i.e. ublock Origin block number) */
 .toolbarbutton-badge {
-	color: var(--tab-text-color-selected) !important;
+	color: light-dark(white, var(--tab-text-color-selected)) !important;
 	/* This forces the variable to be 100% opaque, ignoring its alpha channel */
 	background-color: color-mix(in srgb, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) 66%, black) !important;
 	text-shadow: 1px 1px 2px black !important;
@@ -1566,14 +1566,18 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
   }
 }
 
-/* Close: effectively instant */
+/* Close */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([pinned]):not([fadein]) {
-	transition: min-width 50ms ease-out, max-width 40ms ease-out !important;
+	transition: min-width 80ms cubic-bezier(0.2, 0, 0, 1), max-width 80ms cubic-bezier(0.2, 0, 0, 1) !important;
 }
 
-/* 1. Open rule: don't touch tabs that are sliding into place after a drop */
+/* Open */
 #tabbrowser-tabs[orient="horizontal"]:not([movingtab]) .tabbrowser-tab:not([pinned])[fadein]:not([style*="transition: none"]):not([tabdrop-samewindow]) {
-	transition: min-width 70ms ease-out, max-width 70ms ease-out !important;
+	transition: min-width 100ms cubic-bezier(0.2, 0, 0, 1), max-width 100ms cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.tabbrowser-tab:not([fadein]) .tab-close-button {
+	visibility: hidden !important;
 }
 
 /* Tabs shifting out of the way during a drag, and the drop settle */
