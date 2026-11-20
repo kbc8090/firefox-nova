@@ -38,27 +38,20 @@
 			--focus-outline-color: light-dark(#0061e0, #00ddff) !important;
 		}
 
-		/* Nova color themes: accent built from each theme's own hue */
-		/* Nova color themes: maximum saturation, #aa00ff's lightness */
-		/* Nova color themes: vivid, halfway version */
 		:root[theme-effective-id^="nova-"] {
+			--_h: 12;
+			--_l: 62;
 			--focus-outline-color: light-dark(
-				oklch(from var(--_nova-hue, #0061e0) 0.525 min(c * 7, 0.30) h),
-				oklch(from var(--_nova-hue, #00ddff) var(--_nova-l, 0.68) min(c * 7, 0.23) h)
+				#0061e0,
+				hsl(from var(--lwt-accent-color, #011c23) calc(h + var(--_h)) calc(min(s * 3, 100) * 1%) calc(var(--_l) * 1%))
 			) !important;
+			--toolbar-field-border-color-focus: var(--focus-outline-color) !important;
 		}
-		/*                                                                                    dark / light */
-		:root[theme-effective-id="nova-sun@mozilla.org"]      { --_nova-hue: #270F00; --_nova-l: 0.74; } /* #ff8500 / #a25200 */
-		:root[theme-effective-id="nova-spark@mozilla.org"]    { --_nova-hue: #701C07; }                  /* #ff572f / #bf2b00 */
-		:root[theme-effective-id="nova-flame@mozilla.org"]    { --_nova-hue: #69172D; }                  /* #ff4b7a / #c5004e */
-		:root[theme-effective-id="nova-flare@mozilla.org"]    { --_nova-hue: #5F1854; }                  /* #e850cf / #b3009e */
-		:root[theme-effective-id="nova-lavender@mozilla.org"] { --_nova-hue: #571C61; }                  /* #d65aeb / #a700be */
-		:root[theme-effective-id="nova-dusk@mozilla.org"]     { --_nova-hue: #AA00FF; }                  /* #bc69ff / #9400df */
-		:root[theme-effective-id="nova-lagoon@mozilla.org"]   { --_nova-hue: #23327B; }                  /* #718fff / #3947ff */
-		:root[theme-effective-id="nova-pine@mozilla.org"]     { --_nova-hue: #004933; --_nova-l: 0.74; } /* #00c992 / #007e5a */
-		:root[theme-effective-id="nova-tide@mozilla.org"]     { --_nova-hue: #034554; --_nova-l: 0.74; } /* #00bee4 / #00778f */
-		:root[theme-effective-id="nova-ash@mozilla.org"]      { --_nova-hue: #3F3E42; }                  /* #9b92b3 / #6d6583 */
-		:root[theme-effective-id="nova-smoke@mozilla.org"]    { --_nova-hue: #3B3532; }                  /* #bd8c72 / #8c5e46 */
+		
+				/* Cool hues: no hue shift, less white */
+		:root[theme-effective-id="nova-tide@mozilla.org"]   { --_h: 0; --_l: 55; }
+		:root[theme-effective-id="nova-lagoon@mozilla.org"] { --_h: 0; --_l: 65; }
+		:root[theme-effective-id="nova-pine@mozilla.org"]   { --_h: 0; --_l: 40; }
 	}
 }
 
@@ -902,6 +895,11 @@ findbar checkbox .checkbox-check {
 	overflow: visible !important;
 }
 
+/* Overflowing strip: keep the pinned/normal divider visible, except when the pinned tab itself is hovered or selected */
+#pinned-tabs-container:has(~ #tabbrowser-arrowscrollbox[overflowing]) > .tabbrowser-tab:last-of-type:not([selected], [multiselected], :hover)::after {
+	opacity: 1 !important;
+	transition: none !important;
+}
 
 
 
@@ -1200,25 +1198,42 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	   Firefox paints ::part(content) with `background: var(--panel-background-color)` and
 	   `border: 1px solid var(--panel-border-color)`, so we feed it a two-layer ring through the variables. */
 	@media not ((prefers-contrast) or (-moz-native-theme)) {
-	  :root:is([theme-in-app], :not([lwtheme])) menupopup, :root:is([theme-in-app], :not([lwtheme])) panel {
-		--_menu-base: var(--toolbox-bgcolor, var(--lwt-accent-color, Menu));
-		--_menu-lead: color-mix(in srgb, var(--toolbox-background-gradient-leading, var(--tab-border-color-selected-leading,
-		var(--_menu-base))) 56%, black);
-		--_menu-trail: color-mix(in srgb, var(--toolbox-background-gradient-trailing, var(--tab-border-color-selected-trailing, var(--_menu-base))) 66%, black);
-		--panel-border-color: transparent !important;
-		--panel-background-color:
-		  linear-gradient(
-			145deg,
-			color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
-			color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 46%, var(--_menu-trail)) 54%, transparent) 100%
-		  ) padding-box,
-		  linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
-		  linear-gradient(
-			96deg,
-			color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
-			color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
-		  ) border-box !important;
-	  }
+		  :root:is([theme-in-app], :not([lwtheme])) menupopup, :root:is([theme-in-app], :not([lwtheme])) panel {
+			--_menu-base: var(--toolbox-bgcolor, var(--lwt-accent-color, Menu));
+			--_menu-lead: color-mix(in srgb, var(--toolbox-background-gradient-leading, var(--tab-border-color-selected-leading,
+			var(--_menu-base))) 56%, black);
+			--_menu-trail: color-mix(in srgb, var(--toolbox-background-gradient-trailing, var(--tab-border-color-selected-trailing, var(--_menu-base))) 66%, black);
+			--panel-border-color: transparent !important;
+			--panel-background-color:
+			  linear-gradient(
+				145deg,
+				color-mix(in srgb, var(--_menu-lead) 32%, transparent) 0%,
+				color-mix(in srgb, color-mix(in srgb, var(--_menu-lead) 46%, var(--_menu-trail)) 54%, transparent) 100%
+			  ) padding-box,
+			  linear-gradient(var(--_menu-base), var(--_menu-base)) padding-box,
+			  linear-gradient(
+				96deg,
+				color-mix(in srgb, var(--tab-border-color-selected-leading) 66%, var(--_menu-base)) 20.68%,
+				color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
+			  ) border-box !important;
+		  }
+		/* Nova color themes: the theme's gradient under the toolbar's own tint, like the nav bar */
+		  :root[theme-effective-id^="nova-"] :is(menupopup, panel) {
+			--_menu-dim: 30%;        /* how dark the left side gets */
+			--_menu-stretch: 130%;   /* image height vs. menu: higher = more left-to-right, lighter bottom */
+			--panel-border-color: transparent !important;
+			--panel-background-color:
+			  linear-gradient(to right,
+				color-mix(in srgb, var(--focus-outline-color, transparent) 6%, transparent), transparent 60%) padding-box,
+			  linear-gradient(100deg, color-mix(in srgb, black var(--_menu-dim), transparent), transparent 80%) padding-box,
+			  linear-gradient(var(--toolbar-background-color, transparent), var(--toolbar-background-color, transparent)) padding-box,
+			  var(--toolbox-background-image, none) 0 0 / 100% var(--_menu-stretch) no-repeat padding-box,
+			  linear-gradient(var(--toolbox-background-color, Menu), var(--toolbox-background-color, Menu)) padding-box,
+			  linear-gradient(96deg,
+				color-mix(in srgb, var(--focus-outline-color, transparent) 35%, var(--toolbox-background-color, Menu)),
+				color-mix(in srgb, var(--focus-outline-color, transparent) 12%, var(--toolbox-background-color, Menu))) border-box !important;
+		  }
+	  
 	}
 
 	/* Ensure active hover strictly ignores any disabled state */
@@ -1271,19 +1286,6 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	  }
 	}*/
 	
-	.urlbar-background {
-	  .urlbar[popover-open] > & {
-		background-image: 
-		  linear-gradient(
-			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
-			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
-		  ),
-		  var(--toolbox-background-gradient) !important;
-		background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
-		background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
-		background-attachment: fixed !important;
-	  }
-	}
 	
 	@keyframes urlbar-reveal {
 		from { clip-path: inset(-100px -100px 100% -100px); }
@@ -1294,19 +1296,47 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 		.urlbarView:popover-open {
 			animation: urlbar-reveal 240ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 		}
+	}	
+	
+	/* Tint layer over the urlbar gradient */
+	:root {
+		--_urlbar-tint: linear-gradient(
+			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
+			color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
+		);
+	}
+	:root[theme-effective-id^="nova-"] {
+		--_urlbar-glow: 10%;  /* accent color on the left */
+		--_urlbar-dim: 10%;   /* darkening on the left */
+		--_urlbar-tint: linear-gradient(to right,
+			color-mix(in srgb, var(--focus-outline-color) var(--_urlbar-glow), color-mix(in srgb, black var(--_urlbar-dim), transparent)),
+			transparent 70%);
+	}
+	
+	/* Base color under the urlbar gradient: Nova color themes only (fixes Sun's solid dark variant) */
+	:root[theme-effective-id^="nova-"] :is(.urlbar[popover-open] > .urlbar-background, .urlbarView-background) {
+		background-color: var(--toolbox-background-color) !important;
+	}	
+	
+	.urlbar-background {
+	  .urlbar[popover-open] > & {
+		background-image: var(--_urlbar-tint), var(--toolbox-background-image) !important;
+		background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+		background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+		background-attachment: fixed !important;
+	  }
 	}
 
 	.urlbarView-background {
-	  background-image: 
-		linear-gradient(
-		  color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent),
-		  color-mix(in srgb, var(--color-violet-desaturated-30) 10%, transparent)
-		),
-		var(--toolbox-background-gradient) !important;
-	  background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
-	  background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
-	  background-attachment: fixed !important;
+		background-image: var(--_urlbar-tint), var(--toolbox-background-image) !important;
+		background-size: 100vw auto, var(--toolbar-field-width, 100vw) 100% !important;
+		background-position: 0 0, calc(-1 * var(--urlbar-container-left, 0px)) 0 !important;
+		background-attachment: fixed !important;
 	}
+	
+	:root[theme-effective-id^="nova-"] .urlbarView-row:not([selected]) .urlbarView-url {
+		color: color-mix(in srgb, var(--focus-outline-color) 50%, white) !important;
+	}	
 
 	/* URL bar focused/selected state (before dropdown opens) */
 	#urlbar[focused]:not([popover-open]) .urlbar-background {
