@@ -44,7 +44,7 @@ user_pref("media.videocontrols.picture-in-picture.urlbar-button.enabled", false)
 user_pref("dom.ipc.processPriorityManager.backgroundUsesEcoQoS", false);
 user_pref("dom.ipc.processPriorityManager.foregroundRaisesMainThreadPriority", true);
 user_pref("dom.ipc.processCount", 4);
-user_pref("dom.ipc.processCount.webIsolated", 5);
+user_pref("dom.ipc.processCount.webIsolated", 4);
 user_pref("dom.ipc.processPrelaunch.fission.number", 1);
 user_pref("dom.security.sanitizer.while-parsing", true);
 user_pref("dom.gamepad.enabled", false);
@@ -69,7 +69,7 @@ user_pref("media.cache_readahead_limit", 3600);
 user_pref("media.cache_resume_threshold", 1800);
 
 /** IMAGE CACHE ***/
-user_pref("image.cache.size", 10485760);
+user_pref("image.cache.size", 20971520);
 user_pref("image.mem.decode_bytes_at_a_time", 65536);
 user_pref("image.decode-immediately.enabled", true);
 user_pref("image.jxl.enabled", true);
@@ -84,13 +84,12 @@ user_pref("network.http.max-urgent-start-excessive-connections-per-host", 5);
 user_pref("network.http.request.max-start-delay", 1);
 user_pref("network.http.pacing.requests.enabled", false);
 user_pref("network.http.http3.enable", true);
-user_pref("network.http.http3.enabled", true);
 user_pref("network.http.happy_eyeballs_enabled", true);
 user_pref("network.dns.force_waiting_https_rr", true);
 user_pref("network.trr.mode", 3);
 user_pref("network.dnsCacheEntries", 10000);
 user_pref("network.dnsCacheExpiration", 3600);
-user_pref("network.dns.max_high_priority_threads", 8);
+user_pref("network.dns.max_high_priority_threads", 40);
 user_pref("network.ssl_tokens_cache_capacity", 10240);
 
 /** SPECULATIVE LOADING ***/
@@ -330,7 +329,7 @@ user_pref("extensions.getAddons.cache.enabled", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 
 /** THEME ADJUSTMENTS ***/
-user_pref("widget.non-native-theme.scrollbar.style", 1);
+user_pref("widget.non-native-theme.scrollbar.style", 2);
 user_pref("widget.non-native-theme.use-theme-accent", true);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("svg.context-properties.content.enabled", true);
@@ -341,7 +340,7 @@ user_pref("browser.display.focus_ring_style", 0);
 user_pref("browser.display.focus_ring_width", 0);
 user_pref("layout.css.prefers-color-scheme.content-override", 2);
 user_pref("browser.privateWindowSeparation.enabled", false); // WINDOWS
-user_pref("ui.prefersReducedMotion", 0);
+user_pref("ui.prefersReducedMotion", 1);
 user_pref("ui.tooltip.delay_ms", 750);
 user_pref("ui.key.menuAccessKeyFocuses", false);
 

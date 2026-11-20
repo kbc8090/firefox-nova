@@ -33,9 +33,32 @@
 
 @media -moz-pref("browser.nova.enabled") {
 	@media not (prefers-contrast) {
-		:root[lwtheme]:not([theme-in-app]) {
+		/* Old lwthemes without their own accent: classic teal (Nova color themes excluded) */
+		:root[lwtheme]:not([theme-in-app], [theme-effective-id^="nova-"]) {
 			--focus-outline-color: light-dark(#0061e0, #00ddff) !important;
 		}
+
+		/* Nova color themes: accent built from each theme's own hue */
+		/* Nova color themes: maximum saturation, #aa00ff's lightness */
+		/* Nova color themes: vivid, halfway version */
+		:root[theme-effective-id^="nova-"] {
+			--focus-outline-color: light-dark(
+				oklch(from var(--_nova-hue, #0061e0) 0.525 min(c * 7, 0.30) h),
+				oklch(from var(--_nova-hue, #00ddff) var(--_nova-l, 0.68) min(c * 7, 0.23) h)
+			) !important;
+		}
+		/*                                                                                    dark / light */
+		:root[theme-effective-id="nova-sun@mozilla.org"]      { --_nova-hue: #270F00; --_nova-l: 0.74; } /* #ff8500 / #a25200 */
+		:root[theme-effective-id="nova-spark@mozilla.org"]    { --_nova-hue: #701C07; }                  /* #ff572f / #bf2b00 */
+		:root[theme-effective-id="nova-flame@mozilla.org"]    { --_nova-hue: #69172D; }                  /* #ff4b7a / #c5004e */
+		:root[theme-effective-id="nova-flare@mozilla.org"]    { --_nova-hue: #5F1854; }                  /* #e850cf / #b3009e */
+		:root[theme-effective-id="nova-lavender@mozilla.org"] { --_nova-hue: #571C61; }                  /* #d65aeb / #a700be */
+		:root[theme-effective-id="nova-dusk@mozilla.org"]     { --_nova-hue: #AA00FF; }                  /* #bc69ff / #9400df */
+		:root[theme-effective-id="nova-lagoon@mozilla.org"]   { --_nova-hue: #23327B; }                  /* #718fff / #3947ff */
+		:root[theme-effective-id="nova-pine@mozilla.org"]     { --_nova-hue: #004933; --_nova-l: 0.74; } /* #00c992 / #007e5a */
+		:root[theme-effective-id="nova-tide@mozilla.org"]     { --_nova-hue: #034554; --_nova-l: 0.74; } /* #00bee4 / #00778f */
+		:root[theme-effective-id="nova-ash@mozilla.org"]      { --_nova-hue: #3F3E42; }                  /* #9b92b3 / #6d6583 */
+		:root[theme-effective-id="nova-smoke@mozilla.org"]    { --_nova-hue: #3B3532; }                  /* #bd8c72 / #8c5e46 */
 	}
 }
 
@@ -790,10 +813,6 @@ findbar:focus-within .findbar-textbox[status="notfound"] {
     padding: 4px !important;
     align-items: center !important;
     justify-content: center !important;
-}
-
-.findbar-closebutton > .toolbarbutton-icon {
-    padding: 4px !important; /* Shrunk padding to fit 22px limit */
 }
 
 .findbar-closebutton {
@@ -1576,7 +1595,7 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	transition: min-width 100ms cubic-bezier(0.2, 0, 0, 1), max-width 100ms cubic-bezier(0.2, 0, 0, 1) !important;
 }
 
-.tabbrowser-tab:not([fadein]) .tab-close-button {
+#tabbrowser-tabs .tabbrowser-tab:not([fadein]) .tab-close-button {
 	visibility: hidden !important;
 }
 
@@ -1591,31 +1610,27 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	will-change: transform;
 }
 
-/* Fix: dragging the last tab right no longer shifts it 1px left */
-#tabbrowser-arrowscrollbox-periphery {
-	margin-inline: 1px -1px !important; /* start 1px later, no net layout change */
-}
-#tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button {
-	translate: -1px 0 !important; /* pull the button back so it looks the same */
-}
-
+/* Drag overshoot into the + button (only when the strip isn't overflowing) */
 #tabbrowser-arrowscrollbox:not([overflowing]) > #tabbrowser-arrowscrollbox-periphery { margin-inline: 25px -25px !important; }
 #tabbrowser-arrowscrollbox:not([overflowing]) > #tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button { translate: -25px 0 !important; }
 
-
 /* Last tab can't be dragged right into the overshoot zone */
-#tabbrowser-arrowscrollbox:has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery {
+#tabbrowser-arrowscrollbox:not([overflowing]):has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery {
 	margin-inline: 1px -1px !important;
 }
-#tabbrowser-arrowscrollbox:has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button {
+#tabbrowser-arrowscrollbox:not([overflowing]):has(> .tabbrowser-tab[dragtarget]:last-of-type) > #tabbrowser-arrowscrollbox-periphery > #tabs-newtab-button {
 	translate: -1px 0 !important;
+}
+
+/* Overflowing strip: offset Firefox's 1px clamp on the last tab without touching the periphery */
+#tabbrowser-arrowscrollbox[overflowing] > .tabbrowser-tab[dragtarget]:last-of-type {
+	translate: 1px 0 !important;
 }
 
 
 /* Strip catch-up after closing */
 .closing-tabs-spacer {
 	transition: none !important;
-	transition-duration: 0ms !important;
 }
 
 /* Target both the scroll-up and scroll-down arrow buttons in overflow/arrowscrollbox menus */
