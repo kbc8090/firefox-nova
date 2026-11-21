@@ -27,6 +27,7 @@
 	--menuitem-border-radius: 4px !important;
 	--urlbarview-background-color-selected: var(--lwt-popup-highlight, color-mix(in srgb, rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) 66%, black)) !important;
 	--button-border-radius: 6px !important;
+	--_uc-tint: var(--color-violet-desaturated-20);
     --default-focusring-width: 0px !important;
     --default-focusring: var(--default-focusring-width) solid !important;
 }
@@ -36,6 +37,10 @@
 		/* Old lwthemes without their own accent: classic teal (Nova color themes excluded) */
 		:root[lwtheme]:not([theme-in-app], [theme-effective-id^="nova-"]) {
 			--focus-outline-color: light-dark(#0061e0, #00ddff) !important;
+			/* Toggles, primary buttons, checkboxes: the theme's own focus color instead of the OS accent */
+			--color-accent-primary: rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) !important;
+			--color-accent-primary-hover: color-mix(in srgb, var(--color-accent-primary), white 15%) !important;
+			--color-accent-primary-active: color-mix(in srgb, var(--color-accent-primary), white 30%) !important;
 		}
 
 		:root[theme-effective-id^="nova-"] {
@@ -46,6 +51,12 @@
 				hsl(from var(--lwt-accent-color, #011c23) calc(h + var(--_h)) calc(min(s * 3, 100) * 1%) calc(var(--_l) * 1%))
 			) !important;
 			--toolbar-field-border-color-focus: var(--focus-outline-color) !important;
+			/* Buttons, toggles, checkboxes, progress bars: theme accent instead of the OS accent */
+			--color-accent-primary: var(--focus-outline-color) !important;
+			--color-accent-primary-hover: color-mix(in srgb, var(--focus-outline-color), white 15%) !important;
+			--color-accent-primary-active: color-mix(in srgb, var(--focus-outline-color), white 30%) !important;
+			--_uc-tint: oklch(from var(--lwt-accent-color) 0.88 min(c, 0.05) h);
+					
 		}
 		
 				/* Cool hues: no hue shift, less white */
@@ -416,32 +427,8 @@ menupopup > menu::after {
 
 
   
-  /* Make the menu separators more even */
-  menuseparator {
-	padding: 0 !important;
-	margin-inline: 0px !important;
-	margin-block: 4px !important; /* Adjust this to control vertical spacing above/below the line */
-}
-
-
-
 menupopup[placespopup="true"] > menuseparator {
 	margin-inline: 4px !important;
-}
-
-#mainPopupSet menuitem,
-#mainPopupSet menu,
-menupopup menuitem,
-menupopup menu {
-    border-radius: 4px !important;
-}
-  
-/* Target disabled menu items regardless of whether the attribute value is empty or "true" */
-#mainPopupSet menuitem[disabled][_moz-menuactive="true"],
-#mainPopupSet menuitem[disabled],
-menuitem[disabled] {
-    background: transparent !important;
-    background-color: transparent !important;
 }
 
 /* More consistent context menus with the current theme */
@@ -462,8 +449,7 @@ menuitem {
     }
   }
   
-  
-  /* Make the menu separators more even */
+    /* Make the menu separators more even */
   menuseparator {
     padding: 0 !important;
     margin-inline: 0px !important;
@@ -476,7 +462,7 @@ menupopup menuitem,
 menupopup menu {
     border-radius: 4px !important;
 }
-  
+
 /* Target disabled menu items regardless of whether the attribute value is empty or "true" */
 #mainPopupSet menuitem[disabled][_moz-menuactive="true"],
 #mainPopupSet menuitem[disabled],
@@ -485,24 +471,6 @@ menuitem[disabled] {
     background-color: transparent !important;
 }
 
-@media not -moz-pref("browser.nova.enabled") {
-	menupopup,panel {
-	  --panel-background-color: var(--lwt-accent-color, Menu) !important;
-	  --panel-border-color: var(--chrome-content-separator-color, ThreeDShadow) !important;
-	}
-
-	menu, menuitem {
-	  &:where([_moz-menuactive]:not([disabled])) {
-		background-color: var(--toolbarbutton-background-color-hover, color-mix(in srgb, currentColor 17%, transparent)) !important;
-		}
-	}
-
-	menuitem {
-		&[_moz-menuactive]:not([disabled="true"]):active {
-		  background-color: var(--toolbarbutton-background-color-active, color-mix(in srgb, currentColor 30%, transparent)) !important;
-		}
-	  }
-  }
 
 /* Making the context and other mensu look a little better and even */
 @media (-moz-platform: windows), (-moz-platform: linux) {
@@ -541,13 +509,13 @@ menuitem[disabled] {
 /* 1. Base / Idle state transition */
 #urlbar:not([open]) .urlbar-background, 
 #searchbar:not([open]) {
-	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important; 
+	transition: background-color 320ms cubic-bezier(0.08, 0, 0, 1) !important; 
 }
 
 /* 2. Main URL bar hover state */
 #urlbar:not([focused]):hover .urlbar-background, 
 #searchbar:hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, transparent) !important;
+	background-color: color-mix(in oklab, var(--_uc-tint) 14%, transparent) !important;
 	@media not -moz-pref("browser.nova.enabled") {
 		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
 	}
@@ -563,7 +531,7 @@ menuitem[disabled] {
   .notification-anchor-icon:hover
 ) .urlbar-background {
 	background-color: var(--toolbar-field-background-color) !important;
-	transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important; 
+	transition: background-color 320ms cubic-bezier(0.08, 0, 0, 1) !important; 
 }
 
 /* 4. Instant snap when clicked or expanded */
@@ -749,7 +717,7 @@ findbar:focus-within .findbar-textbox {
 
 /* Instant Textbox Hover */
 .findbar-textbox:not(:focus):hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, transparent) !important;
+	background-color: color-mix(in oklab, var(--_uc-tint) 14%, transparent) !important;
 	@media not -moz-pref("browser.nova.enabled") {
 		background-color: color-mix(in srgb, var(--toolbar-background-color), rgb(255 255 255 / 18%) 50%) !important;
 	}
@@ -1111,7 +1079,12 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
   #identity-box {
 	&[pageproxystate="valid"]:not(.chromeUI, .extensionPage) {
 		display: none !important;
-    }
+	}
+  }
+
+  /* Hide "Extension (Theme Tab)" while the address field is empty (the new tab page) */
+  .urlbar:has(.urlbar-input:placeholder-shown) #identity-box.extensionPage {
+	display: none !important;
   }
 }
 
@@ -1217,12 +1190,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 				color-mix(in srgb, var(--tab-border-color-selected-trailing) 66%, var(--_menu-base)) 79.34%
 			  ) border-box !important;
 		  }
-		/* Nova color themes: the theme's gradient under the toolbar's own tint, like the nav bar */
-		  :root[theme-effective-id^="nova-"] :is(menupopup, panel) {
-			--_menu-dim: 30%;        /* how dark the left side gets */
-			--_menu-stretch: 130%;   /* image height vs. menu: higher = more left-to-right, lighter bottom */
-			--panel-border-color: transparent !important;
-			--panel-background-color:
+		/* A: the Nova look, defined once */
+		:root[theme-effective-id^="nova-"] {
+			--_menu-dim: 30%;
+			--_menu-stretch: 130%;
+			--_nova-surface:
 			  linear-gradient(to right,
 				color-mix(in srgb, var(--focus-outline-color, transparent) 6%, transparent), transparent 60%) padding-box,
 			  linear-gradient(100deg, color-mix(in srgb, black var(--_menu-dim), transparent), transparent 80%) padding-box,
@@ -1231,8 +1203,20 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 			  linear-gradient(var(--toolbox-background-color, Menu), var(--toolbox-background-color, Menu)) padding-box,
 			  linear-gradient(96deg,
 				color-mix(in srgb, var(--focus-outline-color, transparent) 35%, var(--toolbox-background-color, Menu)),
-				color-mix(in srgb, var(--focus-outline-color, transparent) 12%, var(--toolbox-background-color, Menu))) border-box !important;
-		  }
+				color-mix(in srgb, var(--focus-outline-color, transparent) 12%, var(--toolbox-background-color, Menu))) border-box;
+		}
+
+		/* B: menus use it (looks the same as now) */
+		:root[theme-effective-id^="nova-"] :is(menupopup, panel) {
+			--panel-border-color: transparent !important;
+			--panel-background-color: var(--_nova-surface) !important;
+		}
+
+		/* C: findbar and status panel use it too (new) */
+		:root[theme-effective-id^="nova-"] :is(.browserContainer > findbar, #statuspanel-label) {
+			border-color: transparent !important;
+			background: var(--_nova-surface) !important;
+		}
 	  
 	}
 
@@ -1506,7 +1490,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 	& > h1 {
 		font-size: 1.2em !important;
 		text-shadow: 1px 1px 2px black !important;
-  }
+	}
+}
+
+:root[theme-effective-id^="nova-"] .panel-header {
+	background: linear-gradient(to bottom, color-mix(in srgb, var(--focus-outline-color) 18%, transparent), transparent) !important;
 }
 
 #trustpanel-popup .panel-header > h1 {
@@ -1540,6 +1528,14 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
     margin-inline-start: auto !important;
 }
 
+:root[lwtheme]:not([theme-in-app]) {
+	--trustpanel-highlight-bg: var(--button-background-color-menu-hover) !important;
+}
+
+:root[lwtheme]:not([theme-in-app]) #trustpanel-popup[tracking-protection="enabled"] #trustpanel-graphic-section {
+	border: 1px solid var(--color-accent-primary) !important;
+}
+
 /* Add some text when there are no trackers blocked */
 
 #trustpanel-popup[tracking-protection="enabled"]:has(#trustpanel-blocker-section[hidden]) #trustpanel-graphic-section::before {
@@ -1561,11 +1557,11 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 #editBookmarkPanel :is(#editBMPanel_namePicker, #editBMPanel_locationField) {
     border: 1px solid var(--chrome-content-separator-color) !important;
     background-color: var(--urlbar-background-color) !important;
-    transition: background-color 360ms cubic-bezier(0.08, 0, 0, 1) !important;
+    transition: background-color 320ms cubic-bezier(0.08, 0, 0, 1) !important;
 }
 
 #editBookmarkPanel :is(#editBMPanel_namePicker, #editBMPanel_locationField):not(:focus):hover {
-	background-color: color-mix(in srgb, var(--color-violet-desaturated-20) 14%, var(--toolbar-field-background-color, transparent)) !important;
+	background-color: color-mix(in oklab, var(--_uc-tint) 14%, var(--toolbar-field-background-color, transparent)) !important;
 }
 
 #editBookmarkPanel #editBMPanel_folderMenuList {
