@@ -41,6 +41,7 @@
 			--color-accent-primary: rgb(from var(--toolbar-field-border-color-focus, var(--focus-outline-color)) r g b / 1) !important;
 			--color-accent-primary-hover: color-mix(in srgb, var(--color-accent-primary), white 15%) !important;
 			--color-accent-primary-active: color-mix(in srgb, var(--color-accent-primary), white 30%) !important;
+			--toolbarbutton-icon-fill-attention: var(--lwt-toolbarbutton-icon-fill-attention, var(--color-accent-primary)) !important;
 		}
 
 		:root[theme-effective-id^="nova-"] {
