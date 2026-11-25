@@ -24,7 +24,7 @@ user_pref("gfx.font_rendering.fallback.always_use_cmaps", true);
 user_pref("gfx.use_text_smoothing_setting", true);
 user_pref("gfx.webrender.quality.force-subpixel-aa-where-possible", true);
 user_pref("gfx.webrender.all", true);
-user_pref("gfx.webrender.layer-compositor", false);
+user_pref("gfx.webrender.layer-compositor", true);
 //user_pref("gfx.webrender.layer-compositor-force-composition-surface", false);
 user_pref("gfx.webrender.precache-shaders", true);
 user_pref("gfx.webrender.software", false);
@@ -294,6 +294,7 @@ user_pref("network.connectivity-service.enabled", false);
  * SECTION: PESKYFOX                                                        *
 ****************************************************************************/
 /** MOZILLA UI ***/
+user_pref("browser.nova.enabled", true);
 user_pref("browser.promo.syncPromo.history.signin.dismissed", true);
 user_pref("browser.promo.syncPromo.bookmarks.signin.dismissed", true);
 user_pref("browser.privatebrowsing.vpnpromourl", "");
@@ -340,7 +341,7 @@ user_pref("browser.display.focus_ring_style", 0);
 user_pref("browser.display.focus_ring_width", 0);
 user_pref("layout.css.prefers-color-scheme.content-override", 2);
 user_pref("browser.privateWindowSeparation.enabled", false); // WINDOWS
-user_pref("ui.prefersReducedMotion", 1);
+user_pref("ui.prefersReducedMotion", 0);
 user_pref("ui.tooltip.delay_ms", 750);
 user_pref("ui.key.menuAccessKeyFocuses", false);
 

@@ -32,6 +32,12 @@
     --default-focusring: var(--default-focusring-width) solid !important;
 }
 
+/* Classic themes with a #161616 urlbar: use the top bar color instead */
+:root[lwtheme][style*="--toolbar-field-background-color: rgb(22, 22, 22)"] {
+	--toolbar-field-background-color: var(--lwt-accent-color) !important;
+	--toolbar-field-background-color-focus: var(--lwt-accent-color) !important;
+}
+
 @media -moz-pref("browser.nova.enabled") {
 	@media not (prefers-contrast) {
 		/* Old lwthemes without their own accent: classic teal (Nova color themes excluded) */
@@ -43,7 +49,10 @@
 			--color-accent-primary-active: color-mix(in srgb, var(--color-accent-primary), white 30%) !important;
 			--toolbarbutton-icon-fill-attention: var(--lwt-toolbarbutton-icon-fill-attention, var(--color-accent-primary)) !important;
 		}
-
+		/* ...but themes that set their own focus color (Classic themes, most AMO themes) keep it */
+		:root[lwtheme][style*="--toolbar-field-border-color-focus:"]:not([theme-in-app], [theme-effective-id^="nova-"]) {
+			--focus-outline-color: rgb(from var(--toolbar-field-border-color-focus) r g b / 1) !important;
+		}
 		:root[theme-effective-id^="nova-"] {
 			--_h: 12;
 			--_l: 62;
@@ -884,7 +893,7 @@ findbar checkbox .checkbox-check {
 	background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
 	z-index: 1 !important; /* Keep above tab background */
 	opacity: 1 !important;
-	transition: opacity 35ms cubic-bezier(0.55, 0.55, 0, 1) !important;
+	transition: opacity 70ms cubic-bezier(0.55, 0.55, 0, 1) !important;
 }
 
 /* 2. Keep the previous tab's separator hidden while the next tab is closing */
@@ -969,20 +978,81 @@ tab-group:has(> :last-of-type:is(:hover,[selected],[multiselected],[hasactivetab
 }
 
 /* ── Tab separators while dragging ───────────────────────────── */
-/* S = a tab Firefox has shifted out of the dragged tab's way (inline transform) */
+/* Shifted = a tab Firefox has slid out of the dragged tab's way (inline translateX).
+   Tabs after the dragged tab only slide left; tabs before it only slide right. */
 
-/* SHOW: tab right before the dragged tab, when the dragged tab moved right past tabs */
-#tabbrowser-tabs[movingtab] .tabbrowser-tab:has(+ [dragtarget] + .tabbrowser-tab:not([dragtarget])[style*="translateX("])::after,
-/* SHOW: shifted tab now sitting to the right of a dragged tab that moved left */
+/* Dragging right: each tab sliding left carries its own left-edge separator.
+   left: -1px lands on the same pixel as the previous tab's ::after */
+#tabbrowser-tabs[movingtab] [dragtarget] ~ .tabbrowser-tab[style*="translateX("]::before {
+	content: "" !important;
+	display: block !important;
+	position: absolute !important;
+	left: -1px !important;
+	top: calc(25% + 1px) !important;
+	height: 50% !important;
+	width: 1px !important;
+	background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
+	z-index: 1 !important;
+}
+
+/* Dragging left: the shifted tab now right of the dragged tab shows its separator */
 #tabbrowser-tabs[movingtab] .tabbrowser-tab:not([dragtarget])[style*="translateX("]:has(+ [dragtarget])::after {
 	opacity: 1 !important;
 	transition: none !important;
 }
 
-/* HIDE: last shifted tab when dragging right (it's now next to the dragged tab) */
-#tabbrowser-tabs[movingtab] .tabbrowser-tab:not([dragtarget])[style*="translateX("]:not(:has(+ .tabbrowser-tab[style*="translateX("])):not(:has(+ [dragtarget]))::after,
-/* HIDE: unshifted tab just before the shifted ones when dragging left */
+/* Dragging right: the tab standing still before the dragged tab */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:has(+ [dragtarget] + .tabbrowser-tab[style*="translateX("])::after,
+/* Dragging right: every tab sliding left (the next tab's ::before replaces it,
+   and the last one is touching the dragged tab) */
+#tabbrowser-tabs[movingtab] [dragtarget] ~ .tabbrowser-tab[style*="translateX("]::after,
+/* Dragging left: the unshifted tab just before the shifted ones */
 #tabbrowser-tabs[movingtab] .tabbrowser-tab:not([style*="translateX("]):has(+ .tabbrowser-tab:not([dragtarget])[style*="translateX("])::after {
+	opacity: 0 !important;
+	transition: none !important;
+}
+
+/* Drop: hand back to the normal separators on the same pixel, with no fade-in */
+#tabbrowser-tabs:has(.tabbrowser-tab[tabdrop-samewindow]) .tabbrowser-tab::after {
+	transition: none !important;
+}
+
+/* Tabs to the left of the dragged tab (at home, or sliding back home after you
+   change direction) carry their own left-edge separator, so a tab sliding back
+   brings it along instead of it popping in at the end */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:not([selected], [multiselected]) + .tabbrowser-tab:not([selected], [multiselected], [style*="translateX("]):has(~ [dragtarget])::before {
+	content: "" !important;
+	display: block !important;
+	position: absolute !important;
+	left: -1px !important;
+	top: calc(25% + 1px) !important;
+	height: 50% !important;
+	width: 1px !important;
+	background-color: color-mix(in srgb, currentColor 28%, transparent) !important;
+	z-index: 1 !important;
+}
+
+/* ...and hide the static separator each of those replaces */
+#tabbrowser-tabs[movingtab] .tabbrowser-tab:has(+ .tabbrowser-tab:not([style*="translateX("]) ~ [dragtarget])::after {
+	opacity: 0 !important;
+	transition: none !important;
+}
+
+/* Dragging your first normal tab right: the tab sliding into first place gets no
+   sliding separator (it would be cut off on its last pixel)... */
+#tabbrowser-tabs[movingtab] #tabbrowser-arrowscrollbox > .tabbrowser-tab[dragtarget]:first-of-type + .tabbrowser-tab[style*="translateX("]::before {
+	display: none !important;
+}
+
+/* ...the pinned divider just shows up right away instead */
+#tabbrowser-tabs[movingtab]:has(#tabbrowser-arrowscrollbox > .tabbrowser-tab[dragtarget]:first-of-type + .tabbrowser-tab[style*="translateX("]) #pinned-tabs-container > .tabbrowser-tab:last-of-type:not([selected], [multiselected])::after {
+	opacity: 1 !important;
+	transition: none !important;
+}
+
+/* Dragging a tab into first place: your first tab slides out of the way, so the
+   pinned divider would sit right next to the dragged tab. Hide it */
+#tabbrowser-tabs[movingtab]:has(#tabbrowser-arrowscrollbox > .tabbrowser-tab:first-of-type:not([dragtarget])[style*="translateX("]) #pinned-tabs-container > .tabbrowser-tab:last-of-type::after {
 	opacity: 0 !important;
 	transition: none !important;
 }
